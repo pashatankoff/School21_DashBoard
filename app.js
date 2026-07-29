@@ -1,22 +1,22 @@
 const state = {
-  screen: 'dashboard',
+  screen: 'ventilation',
   data: {
     ventilation: [
-      { id: 'pv1', name: 'ПВ1', type: 'Приток', status: true, speed: 85, alarm: false },
-      { id: 'v5', name: 'В5', type: 'Вытяжка', status: true, speed: 60, alarm: false },
-      { id: 'p2', name: 'П2', type: 'Приток', status: false, speed: 0, alarm: true },
-      { id: 'v6', name: 'В6', type: 'Вытяжка', status: true, speed: 70, alarm: false },
-      { id: 'p3', name: 'П3', type: 'Приток', status: true, speed: 80, alarm: false },
-      { id: 'v7', name: 'В7', type: 'Вытяжка', status: true, speed: 50, alarm: false },
-      { id: 'p4', name: 'П4', type: 'Приток', status: false, speed: 0, alarm: false },
-      { id: 'v8', name: 'В8', type: 'Вытяжка', status: true, speed: 65, alarm: false },
-      { id: 'p5', name: 'П5', type: 'Приток', status: true, speed: 90, alarm: false },
-      { id: 'v9', name: 'В9', type: 'Вытяжка', status: true, speed: 55, alarm: false },
-      { id: 'v2', name: 'В2', type: 'Вытяжка', status: true, speed: 75, alarm: false },
-      { id: 'v10', name: 'В10', type: 'Вытяжка', status: true, speed: 60, alarm: false },
-      { id: 'v3', name: 'В3', type: 'Вытяжка', status: false, speed: 0, alarm: true },
-      { id: 'v11', name: 'В11', type: 'Вытяжка', status: true, speed: 50, alarm: false },
-      { id: 'v4', name: 'В4', type: 'Вытяжка', status: true, speed: 70, alarm: false }
+      { id: 'pv1', name: 'ПВ1', supply: 15.0, return: 17.2, setpoint: 14.0, status: 'running', speed: 85, season: 'Лето' },
+      { id: 'v5', name: 'В5', supply: 22.1, return: 22.4, setpoint: 22.0, status: 'running', speed: 60, season: 'Лето' },
+      { id: 'p2', name: 'П2', supply: 28.4, return: 26.1, setpoint: 14.0, status: 'alarm', speed: 0, season: 'Зима' },
+      { id: 'v6', name: 'В6', supply: 21.8, return: 22.0, setpoint: 22.0, status: 'running', speed: 70, season: 'Лето' },
+      { id: 'p3', name: 'П3', supply: 14.6, return: 16.8, setpoint: 14.0, status: 'running', speed: 80, season: 'Зима' },
+      { id: 'v7', name: 'В7', supply: 23.0, return: 23.2, setpoint: 23.0, status: 'running', speed: 50, season: 'Лето' },
+      { id: 'p4', name: 'П4', supply: 18.2, return: 19.0, setpoint: 16.0, status: 'stopped', speed: 0, season: 'Зима' },
+      { id: 'v8', name: 'В8', supply: 21.5, return: 21.9, setpoint: 22.0, status: 'running', speed: 65, season: 'Лето' },
+      { id: 'p5', name: 'П5', supply: 13.9, return: 15.5, setpoint: 14.0, status: 'running', speed: 90, season: 'Зима' },
+      { id: 'v9', name: 'В9', supply: 22.4, return: 22.7, setpoint: 22.0, status: 'running', speed: 55, season: 'Лето' },
+      { id: 'v2', name: 'В2', supply: 20.8, return: 21.1, setpoint: 21.0, status: 'running', speed: 75, season: 'Лето' },
+      { id: 'v10', name: 'В10', supply: 22.0, return: 22.3, setpoint: 22.0, status: 'running', speed: 60, season: 'Лето' },
+      { id: 'v3', name: 'В3', supply: 31.2, return: 29.5, setpoint: 22.0, status: 'alarm', speed: 0, season: 'Лето' },
+      { id: 'v11', name: 'В11', supply: 21.0, return: 21.4, setpoint: 21.0, status: 'running', speed: 50, season: 'Лето' },
+      { id: 'v4', name: 'В4', supply: 22.6, return: 22.9, setpoint: 22.0, status: 'stopped', speed: 0, season: 'Зима' }
     ],
     itp: {
       t_supply: 65.2,
@@ -96,7 +96,7 @@ const titles = {
 function init() {
   updateClock();
   setInterval(updateClock, 1000);
-  render(state.screen);
+  switchScreen(state.screen);
   document.getElementById('bottom-nav').addEventListener('click', e => {
     const btn = e.target.closest('.nav-btn');
     if (!btn) return;
@@ -157,21 +157,39 @@ function itpDelta() {
 }
 
 function ventAlarmCount() {
-  return state.data.ventilation.filter(v => v.alarm).length;
+  return state.data.ventilation.filter(v => v.status === 'alarm').length;
+}
+
+function getAlarmDashSummary(alarms) {
+  const critical = alarms.filter(a => !a.ack && a.level === 'critical');
+
+  const shorten = text => text
+    .replace(/^Авария вентиляции /, '')
+    .replace(/^Критический уровень расхода /, 'ИТП: ');
+
+  const sortedByTime = [...critical].sort((a, b) => b.time.localeCompare(a.time));
+  const latest = sortedByTime[0];
+
+  return {
+    count: critical.length,
+    barClass: critical.length ? 'alarm' : 'ok',
+    borderClass: critical.length ? 'alarm-border' : '',
+    barText: latest ? shorten(latest.text) : 'Аварий нет'
+  };
 }
 
 function renderDashboard() {
   const grid = document.createElement('div');
   grid.className = 'grid dashboard-grid';
   const d = state.data;
-  const onV = d.ventilation.filter(v => v.status).length;
+  const onV = d.ventilation.filter(v => v.status === 'running').length;
   const vAlarms = ventAlarmCount();
   const delta = itpDelta();
-  const activeAlarms = d.alarms.filter(a => !a.ack && a.level !== 'info').length;
+  const alarmSum = getAlarmDashSummary(d.alarms);
 
   const ventAlarmClass = vAlarms > 0 ? 'alarm' : 'ok';
   const ventAlarmText = vAlarms > 0
-    ? vAlarms + ' авар. · ' + d.ventilation.filter(v => v.alarm).map(v => v.name).join(', ')
+    ? vAlarms + ' авар. · ' + d.ventilation.filter(v => v.status === 'alarm').map(v => v.name).join(', ')
     : 'Аварий нет';
 
   grid.appendChild(card('Вентиляция', '', `
@@ -270,46 +288,69 @@ function renderDashboard() {
       <div class="sub-value">работают</div>
       <div class="ac-dash-zones">зоны ${zoneMin.toFixed(1)}…${zoneMax.toFixed(1)} °C</div>
     </div>
-    <div class="vent-alarm-bar ${acAlarmClass}">${acAlarmText}</div>
+    <div class="dash-tile-alarm-slot">
+      <div class="vent-alarm-bar ${acAlarmClass}">${acAlarmText}</div>
+    </div>
   `));
 
   const alarmCard = card('Аварии', '', `
-    <div class="big-value">${activeAlarms}<span class="unit">акт.</span></div>
-    <div class="sub-value">${activeAlarms > 0 ? 'Требуется внимание' : 'Все системы в норме'}</div>
+    <div class="big-value">${alarmSum.count}</div>
+    <div class="alarm-dash-meta">
+      <div class="sub-value">критических</div>
+      ${alarmSum.count
+        ? '<span class="status-pill alarm-dash-ack-pill">не квитировано</span>'
+        : '<span class="status-pill on">квитировано</span>'}
+    </div>
+    <div class="dash-tile-alarm-slot">
+      ${alarmSum.count ? '<span class="alarm-dash-bar-label">Последняя</span>' : ''}
+      <div class="vent-alarm-bar alarm-dash-bar ${alarmSum.barClass}">${alarmSum.barText}</div>
+    </div>
   `);
-  if (activeAlarms > 0) alarmCard.classList.add('alarm-border');
+  if (alarmSum.borderClass) alarmCard.classList.add(alarmSum.borderClass);
   grid.appendChild(alarmCard);
 
   return grid;
 }
 
 function renderVentilation() {
-  const grid = document.createElement('div');
-  grid.className = 'grid grid-5';
+  const wrap = document.createElement('div');
+  wrap.className = 'vent-table';
+
+  const header = document.createElement('div');
+  header.className = 'vent-row vent-row-header';
+  header.innerHTML = `
+    <span class="vent-col vent-col-name">Установка</span>
+    <span class="vent-col vent-col-temp">Т притока</span>
+    <span class="vent-col vent-col-temp">Т возвр.</span>
+    <span class="vent-col vent-col-temp">Т уставки</span>
+    <span class="vent-col vent-col-speed">Скорость</span>
+    <span class="vent-col vent-col-season">Сезон</span>
+    <span class="vent-col vent-col-status">Статус</span>
+  `;
+  wrap.appendChild(header);
+
+  const statusLabel = {
+    running: 'В работе',
+    stopped: 'Стоп',
+    alarm: 'Авария'
+  };
+
   state.data.ventilation.forEach(v => {
     const el = document.createElement('div');
-    el.className = 'card vent-card' + (v.alarm ? ' alarm' : '');
+    el.className = 'vent-row status-' + v.status;
     el.dataset.id = v.id;
     el.innerHTML = `
-      <div>
-        <div class="name">${v.name}</div>
-        <div class="type">${v.type}</div>
-        ${v.alarm ? '<div class="vent-alarm-icon">Авария</div>' : ''}
-      </div>
-      <div class="vent-meta">
-        <div class="vent-speed">${v.status ? v.speed + '%' : '—'}</div>
-        <button class="vent-btn ${v.status ? 'on' : ''}" data-action="toggle-vent" data-id="${v.id}">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5">
-            ${v.status
-              ? '<path d="M18 6L6 18M6 6l12 12"/>'
-              : '<path d="M5 12h14M12 5v14"/>'}
-          </svg>
-        </button>
-      </div>
+      <span class="vent-col vent-col-name">${v.name}</span>
+      <span class="vent-col vent-col-temp">${v.supply.toFixed(1)}<span class="vent-unit">°C</span></span>
+      <span class="vent-col vent-col-temp">${v.return.toFixed(1)}<span class="vent-unit">°C</span></span>
+      <span class="vent-col vent-col-temp">${v.setpoint.toFixed(1)}<span class="vent-unit">°C</span></span>
+      <span class="vent-col vent-col-speed">${v.speed}<span class="vent-unit">%</span></span>
+      <span class="vent-col vent-col-season">${v.season}</span>
+      <span class="vent-col vent-col-status"><span class="vent-status-pill">${statusLabel[v.status] || v.status}</span></span>
     `;
-    grid.appendChild(el);
+    wrap.appendChild(el);
   });
-  return grid;
+  return wrap;
 }
 
 function renderITP() {
@@ -567,12 +608,6 @@ function handleMainClick(e) {
   if (!btn) return;
   const action = btn.dataset.action;
 
-  if (action === 'toggle-vent') {
-    const v = state.data.ventilation.find(x => x.id === btn.dataset.id);
-    if (v) { v.status = !v.status; v.speed = v.status ? 60 : 0; }
-    render('ventilation');
-    return;
-  }
   if (action === 'toggle-breaker') {
     state.data.electric.breakers[parseInt(btn.dataset.idx)].status =
       !state.data.electric.breakers[parseInt(btn.dataset.idx)].status;

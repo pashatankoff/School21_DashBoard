@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  width="1220"
+  height="64"
+  viewBox="0 0 1220 64"
+  version="1.1"
+  id="svg-vent-row-tile"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1" />
+  <style type="text/css" id="style1"><![CDATA[
+    g.Off { display: none; }
+    g.On { display: inline; }
+
+    #accent.green, #accent[data-color="green"] { fill: #22c55e; }
+    #accent.red { fill: #ef4444; }
+    #accent.orange { fill: #f59e0b; }
+    #accent.gray { fill: #94a3b8; }
+    #accent.blue { fill: #38bdf8; }
+
+    #tile_bg.green { fill: #14532d; }
+    #tile_bg.red { fill: #7f1d1d; }
+    #tile_bg.orange { fill: #78350f; }
+    #tile_bg.gray { fill: #151e32; }
+    #tile_bg.blue { fill: #0c4a6e; }
+  ]]></style>
+  <g id="vent_row">
+    <rect
+      id="tile_bg"
+      class="gray"
+      x="2"
+      y="2"
+      width="1216"
+      height="60"
+      rx="8"
+      ry="8"
+      fill="#151e32"
+      stroke="#2a3a55"
+      stroke-width="2" />
+
+    <rect
+      id="accent"
+      class="green"
+      x="2"
+      y="2"
+      width="6"
+      height="60"
+      rx="3"
+      ry="3"
+      fill="#22c55e" />
+
+    <g id="name_group" class="On">
+      <text
+        id="name_text"
+        x="24"
+        y="42"
+        font-size="26px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#f8fafc">&#1055;&#1042;1</text>
+    </g>
+
+    <g id="supply_group" class="On">
+      <text
+        id="supply_text"
+        x="140"
+        y="42"
+        font-size="24px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#f8fafc">15.0 &#176;C</text>
+    </g>
+
+    <g id="return_group" class="On">
+      <text
+        id="return_text"
+        x="320"
+        y="42"
+        font-size="24px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#f8fafc">17.0 &#176;C</text>
+    </g>
+
+    <g id="setpoint_group" class="On">
+      <text
+        id="setpoint_text"
+        x="500"
+        y="42"
+        font-size="24px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#f8fafc">14.0 &#176;C</text>
+    </g>
+
+    <g id="speed_group" class="On">
+      <text
+        id="speed_text"
+        x="680"
+        y="42"
+        font-size="24px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#f8fafc">85 %</text>
+    </g>
+
+    <g id="season_group" class="On">
+      <text
+        id="season_text"
+        x="830"
+        y="42"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700"
+        fill="#f8fafc">&#1051;&#1077;&#1090;&#1086;</text>
+    </g>
+
+    <g id="status_group" class="On">
+      <text
+        id="status_text"
+        x="980"
+        y="42"
+        font-size="20px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#22c55e">&#1042; &#1088;&#1072;&#1073;&#1086;&#1090;&#1077;</text>
+    </g>
+  </g>
+</svg>

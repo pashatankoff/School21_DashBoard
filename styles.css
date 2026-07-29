@@ -236,10 +236,11 @@ html, body {
 .dashboard-grid .phase-dot-item .phase-name,
 .dashboard-grid .vent-alarm-bar {
   font-size: var(--dash-label-size);
-}
-
-.dashboard-grid .status-pill {
-  font-size: calc(var(--dash-label-size) * 0.65);
+  line-height: 1.25;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 .card {
@@ -276,6 +277,27 @@ html, body {
   flex-direction: column;
   justify-content: center;
   gap: 8px;
+  min-height: 0;
+}
+
+.dashboard-grid .card-body {
+  justify-content: flex-start;
+}
+
+.dashboard-grid .dash-tile-alarm-slot {
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.dashboard-grid .alarm-dash-bar {
+  overflow: hidden;
+}
+
+.dashboard-grid .status-pill {
+  font-size: calc(var(--dash-label-size) * 0.65);
 }
 
 .big-value {
@@ -603,10 +625,13 @@ html, body {
   font-weight: 700;
 }
 
-.ac-dash-meta {
+.ac-dash-meta,
+.alarm-dash-meta {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  align-items: flex-start;
+  min-height: 56px;
 }
 
 .ac-dash-zones {
@@ -618,6 +643,31 @@ html, body {
 
 .dashboard-grid .ac-dash-zones {
   font-size: 20px;
+}
+
+.alarm-dash-ack-pill {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.alarm-dash-bar-label {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 6px);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.dashboard-grid .alarm-dash-bar-label {
+  font-size: 14px;
+}
+
+.alarm-dash-bar {
+  width: 100%;
 }
 
 .vent-alarm-bar.ok {
@@ -639,72 +689,114 @@ html, body {
   border-color: var(--danger);
 }
 
-/* Ventilation */
-.vent-card {
-  min-height: 130px;
-  padding: 12px;
-  justify-content: space-between;
+.card.warn-border {
+  border-color: var(--warning);
 }
 
-.vent-card.alarm {
-  border-color: var(--danger);
-}
-
-.vent-card .name {
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.vent-card .type {
-  font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.vent-meta {
+/* Ventilation table rows */
+.vent-table {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 8px;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
-.vent-speed {
+.vent-row {
+  display: grid;
+  grid-template-columns: 100px 1.1fr 1.1fr 1.1fr 0.9fr 0.9fr 130px;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  border-left-width: 4px;
+  border-left-color: var(--border);
+}
+
+.vent-row-header {
+  min-height: 36px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background: transparent;
+  border: none;
+  border-left-color: transparent;
+  color: var(--text-muted);
   font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.vent-row.status-running {
+  border-left-color: var(--success);
+}
+
+.vent-row.status-stopped {
+  border-left-color: var(--text-muted);
+}
+
+.vent-row.status-alarm {
+  border-left-color: var(--danger);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.vent-col {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vent-row-header .vent-col {
+  font-size: 13px;
+  font-weight: 700;
   color: var(--text-muted);
 }
 
-.vent-alarm-icon {
-  font-size: 11px;
+.vent-col-name {
+  font-size: 22px;
+  letter-spacing: 0.3px;
+}
+
+.vent-unit {
+  margin-left: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.vent-status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 13px;
   font-weight: 800;
-  color: var(--danger);
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
-.vent-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  background: var(--bg);
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.vent-btn.on {
+.status-running .vent-status-pill {
   background: var(--success-bg);
-  border-color: var(--success);
   color: var(--success);
-  box-shadow: 0 0 12px rgba(34,197,94,0.25);
 }
 
-.vent-btn:active {
-  transform: scale(0.92);
+.status-stopped .vent-status-pill {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-muted);
+}
+
+.status-alarm .vent-status-pill {
+  background: var(--danger-bg);
+  color: var(--danger);
 }
 
 /* ITP gauges */

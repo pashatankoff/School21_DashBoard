@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="AccentColor" DisplayName="Цвет боковой полоски" Type="STRING" ParamType="Attribute" ItemId="accent" Path="class">
+      <Value DisplayName="green">green</Value>
+      <Value DisplayName="red">red</Value>
+      <Value DisplayName="orange">orange</Value>
+      <Value DisplayName="gray">gray</Value>
+      <Value DisplayName="blue">blue</Value>
+      <Value DisplayName="custom">custom</Value>
+    </ParameterDef>
+    <ParameterDef Name="AccentColorCustom" DisplayName="Цвет боковой полоски (свой fill)" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="accent" Path="fill" />
+    <ParameterDef Name="TileBackgroundColor" DisplayName="Цвет фона" Type="STRING" ParamType="Attribute" ItemId="tile_bg" Path="class">
+      <Value DisplayName="green">green</Value>
+      <Value DisplayName="red">red</Value>
+      <Value DisplayName="orange">orange</Value>
+      <Value DisplayName="gray">gray</Value>
+      <Value DisplayName="blue">blue</Value>
+      <Value DisplayName="custom">custom</Value>
+    </ParameterDef>
+    <ParameterDef Name="TileBackgroundColorCustom" DisplayName="Цвет фона (свой fill)" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="tile_bg" Path="fill" />
+    <ParameterDef Name="UnitName" DisplayName="Имя установки" Type="STRING" ParamType="Attribute" ItemId="name_text" Path="Content" />
+    <ParameterDef Name="UnitNameColor" DisplayName="Цвет имени" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="name_text" Path="fill" />
+    <ParameterDef Name="UnitNameVisible" DisplayName="Видимость имени" Type="STRING" ParamType="Attribute" ItemId="name_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="SupplyTemp" DisplayName="Т притока" Type="STRING" ParamType="Attribute" ItemId="supply_text" Path="Content" />
+    <ParameterDef Name="SupplyTempColor" DisplayName="Цвет Т притока" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="supply_text" Path="fill" />
+    <ParameterDef Name="SupplyTempVisible" DisplayName="Видимость Т притока" Type="STRING" ParamType="Attribute" ItemId="supply_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="ReturnTemp" DisplayName="Т возврата" Type="STRING" ParamType="Attribute" ItemId="return_text" Path="Content" />
+    <ParameterDef Name="ReturnTempColor" DisplayName="Цвет Т возврата" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="return_text" Path="fill" />
+    <ParameterDef Name="ReturnTempVisible" DisplayName="Видимость Т возврата" Type="STRING" ParamType="Attribute" ItemId="return_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="SetpointTemp" DisplayName="Т уставки" Type="STRING" ParamType="Attribute" ItemId="setpoint_text" Path="Content" />
+    <ParameterDef Name="SetpointTempColor" DisplayName="Цвет Т уставки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="setpoint_text" Path="fill" />
+    <ParameterDef Name="SetpointTempVisible" DisplayName="Видимость Т уставки" Type="STRING" ParamType="Attribute" ItemId="setpoint_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Speed" DisplayName="Скорость" Type="STRING" ParamType="Attribute" ItemId="speed_text" Path="Content" />
+    <ParameterDef Name="SpeedColor" DisplayName="Цвет скорости" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="speed_text" Path="fill" />
+    <ParameterDef Name="SpeedVisible" DisplayName="Видимость скорости" Type="STRING" ParamType="Attribute" ItemId="speed_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Season" DisplayName="Сезон" Type="STRING" ParamType="Attribute" ItemId="season_text" Path="Content" />
+    <ParameterDef Name="SeasonColor" DisplayName="Цвет сезона" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="season_text" Path="fill" />
+    <ParameterDef Name="SeasonVisible" DisplayName="Видимость сезона" Type="STRING" ParamType="Attribute" ItemId="season_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Status" DisplayName="Статус" Type="STRING" ParamType="Attribute" ItemId="status_text" Path="Content" />
+    <ParameterDef Name="StatusColor" DisplayName="Цвет статуса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="status_text" Path="fill" />
+    <ParameterDef Name="StatusVisible" DisplayName="Видимость статуса" Type="STRING" ParamType="Attribute" ItemId="status_group" Path="class">
+      <Value DisplayName="Показать">On</Value>
+      <Value DisplayName="Скрыть">Off</Value>
+    </ParameterDef>
+  </ParameterDefs>
+</SvgDef>

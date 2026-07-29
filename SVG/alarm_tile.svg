@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  width="408"
+  height="299"
+  viewBox="0 0 408 299"
+  version="1.1"
+  id="svg-alarm-tile"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1" />
+  <style type="text/css" id="style1"><![CDATA[
+    .state_off { display: none; }
+    .state_on { display: inline; }
+    g.Off .state_on { display: none; }
+    g.Off .state_off { display: inline; }
+  ]]></style>
+  <g id="alarm_tile">
+    <rect
+      id="tile_bg"
+      x="2"
+      y="2"
+      width="404"
+      height="295"
+      rx="12"
+      ry="12"
+      fill="#151e32"
+      stroke="#2a3a55"
+      stroke-width="2" />
+
+    <text
+      id="name_text"
+      x="14"
+      y="36"
+      font-size="28px"
+      font-family="Segoe UI, Sans"
+      font-weight="700"
+      letter-spacing="0.5px"
+      fill="#94a3b8">&#1040;&#1042;&#1040;&#1056;&#1048;&#1048;</text>
+
+    <text
+      id="count_value"
+      x="14"
+      y="140"
+      font-size="72px"
+      font-family="Segoe UI, Sans"
+      font-weight="800"
+      fill="#f8fafc">2</text>
+
+    <g id="label_group" fill="#94a3b8">
+      <text
+        id="count_label"
+        x="14"
+        y="184"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1082;&#1088;&#1080;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080;&#1093;</text>
+    </g>
+
+    <g id="alarm_state" class="On">
+      <g class="state_on" id="state_on_group">
+        <rect
+          id="alarm_border"
+          x="2"
+          y="2"
+          width="404"
+          height="295"
+          rx="12"
+          ry="12"
+          fill="none"
+          stroke="#ef4444"
+          stroke-width="2" />
+        <rect
+          id="ack_pill_on"
+          x="14"
+          y="198"
+          width="190"
+          height="34"
+          rx="17"
+          ry="17"
+          fill="#ef4444"
+          fill-opacity="0.15" />
+        <text
+          id="ack_pill_on_text"
+          x="109"
+          y="221"
+          text-anchor="middle"
+          font-size="16px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          letter-spacing="0.3px"
+          fill="#ef4444">&#1053;&#1045; &#1050;&#1042;&#1048;&#1058;&#1048;&#1056;&#1054;&#1042;&#1040;&#1053;&#1054;</text>
+        <g id="unit_group" fill="#94a3b8">
+          <text
+            id="latest_label"
+            x="394"
+            y="228"
+            text-anchor="end"
+            font-size="14px"
+            font-family="Segoe UI, Sans"
+            font-weight="700"
+            letter-spacing="0.4px">&#1055;&#1054;&#1057;&#1051;&#1045;&#1044;&#1053;&#1071;&#1071;</text>
+        </g>
+        <rect
+          id="alarm_bar_bg"
+          x="14"
+          y="234"
+          width="380"
+          height="54"
+          rx="8"
+          ry="8"
+          fill="#ef4444"
+          fill-opacity="0.15" />
+        <text
+          id="alarm_text"
+          x="30"
+          y="270"
+          font-size="26px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          fill="#ef4444">&#1055;2: &#1086;&#1090;&#1082;&#1072;&#1079; &#1076;&#1074;&#1080;&#1075;&#1072;&#1090;&#1077;&#1083;&#1103;</text>
+      </g>
+
+      <g class="state_off" id="state_off_group">
+        <rect
+          id="ack_pill_off"
+          x="14"
+          y="198"
+          width="190"
+          height="34"
+          rx="17"
+          ry="17"
+          fill="#22c55e"
+          fill-opacity="0.15" />
+        <text
+          id="ack_pill_off_text"
+          x="109"
+          y="221"
+          text-anchor="middle"
+          font-size="16px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          letter-spacing="0.3px"
+          fill="#22c55e">&#1050;&#1042;&#1048;&#1058;&#1048;&#1056;&#1054;&#1042;&#1040;&#1053;&#1054;</text>
+        <rect
+          id="ok_bar_bg"
+          x="14"
+          y="234"
+          width="380"
+          height="54"
+          rx="8"
+          ry="8"
+          fill="#22c55e"
+          fill-opacity="0.15" />
+        <text
+          id="ok_bar_text"
+          x="30"
+          y="270"
+          font-size="26px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          fill="#22c55e">&#1040;&#1074;&#1072;&#1088;&#1080;&#1081; &#1085;&#1077;&#1090;</text>
+      </g>
+    </g>
+  </g>
+</svg>
