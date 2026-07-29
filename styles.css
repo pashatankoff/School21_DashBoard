@@ -603,6 +603,23 @@ html, body {
   font-weight: 700;
 }
 
+.ac-dash-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ac-dash-zones {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.dashboard-grid .ac-dash-zones {
+  font-size: 20px;
+}
+
 .vent-alarm-bar.ok {
   background: var(--success-bg);
   color: var(--success);

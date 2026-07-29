@@ -266,7 +266,10 @@ function renderDashboard() {
 
   grid.appendChild(card('Кондиционеры', '', `
     <div class="big-value">${acWorking}<span class="unit">/ ${d.ac.length}</span></div>
-    <div class="sub-value">работают · зоны ${zoneMin.toFixed(1)}…${zoneMax.toFixed(1)}°C</div>
+    <div class="ac-dash-meta">
+      <div class="sub-value">работают</div>
+      <div class="ac-dash-zones">зоны ${zoneMin.toFixed(1)}…${zoneMax.toFixed(1)} °C</div>
+    </div>
     <div class="vent-alarm-bar ${acAlarmClass}">${acAlarmText}</div>
   `));
 
