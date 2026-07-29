@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="TileName" DisplayName="Название плитки" Type="STRING" ParamType="Attribute" ItemId="name_text" Path="Content" />
+    <ParameterDef Name="TileBackgroundColor" DisplayName="Цвет фона плитки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="tile_bg" Path="fill" />
+    <ParameterDef Name="TileTitleColor" DisplayName="Цвет заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="name_text" Path="fill" />
+    <ParameterDef Name="LabelColor" DisplayName="Цвет подписей слева" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="label_group" Path="fill" />
+    <ParameterDef Name="UnitColor" DisplayName="Цвет единиц (°C)" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="unit_group" Path="fill" />
+    <ParameterDef Name="SupplyTemperature" DisplayName="Т подачи" Type="STRING" ParamType="Attribute" ItemId="supply_value" Path="Content" />
+    <ParameterDef Name="SupplyTemperatureColor" DisplayName="Цвет Т подачи" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="supply_value" Path="fill" />
+    <ParameterDef Name="ReturnTemperature" DisplayName="Т обратки" Type="STRING" ParamType="Attribute" ItemId="return_value" Path="Content" />
+    <ParameterDef Name="ReturnTemperatureColor" DisplayName="Цвет Т обратки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="return_value" Path="fill" />
+    <ParameterDef Name="DeltaTemperature" DisplayName="Дельта ΔT" Type="STRING" ParamType="Attribute" ItemId="delta_value" Path="Content" />
+    <ParameterDef Name="DeltaTemperatureColor" DisplayName="Цвет дельты ΔT" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="delta_value" Path="fill" />
+  </ParameterDefs>
+</SvgDef>

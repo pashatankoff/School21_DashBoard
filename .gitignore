@@ -1,0 +1,22 @@
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
+
+# Secrets — never commit credentials
+.env
+.env.*
+*.pem
+credentials.json

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  width="408"
+  height="299"
+  viewBox="0 0 408 299"
+  version="1.1"
+  id="svg-electric-tile"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <filter id="glow_green" x="-150%" y="-150%" width="400%" height="400%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#22c55e" flood-opacity="0.9" />
+    </filter>
+    <filter id="glow_red" x="-150%" y="-150%" width="400%" height="400%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#ef4444" flood-opacity="0.9" />
+    </filter>
+  </defs>
+  <style type="text/css" id="style1"><![CDATA[
+    .state_off { display: none; }
+    .state_on { display: inline; }
+    g.Off .state_on { display: none; }
+    g.Off .state_off { display: inline; }
+  ]]></style>
+  <g id="electric_tile">
+    <rect
+      id="tile_bg"
+      x="2"
+      y="2"
+      width="404"
+      height="295"
+      rx="12"
+      ry="12"
+      fill="#151e32"
+      stroke="#2a3a55"
+      stroke-width="2" />
+
+    <text
+      id="name_text"
+      x="14"
+      y="36"
+      font-size="28px"
+      font-family="Segoe UI, Sans"
+      font-weight="700"
+      letter-spacing="0.5px"
+      fill="#94a3b8">&#1069;&#1051;&#1045;&#1050;&#1058;&#1056;&#1054;&#1057;&#1053;&#1040;&#1041;&#1046;&#1045;&#1053;&#1048;&#1045;</text>
+
+    <g id="label_group" fill="#94a3b8">
+      <text
+        id="feed1_label"
+        x="104"
+        y="82"
+        text-anchor="middle"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">&#1042;&#1042;&#1054;&#1044; 1</text>
+      <text
+        id="feed2_label"
+        x="304"
+        y="82"
+        text-anchor="middle"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">&#1042;&#1042;&#1054;&#1044; 2</text>
+    </g>
+
+    <rect
+      id="feed1_bg"
+      x="14"
+      y="96"
+      width="180"
+      height="188"
+      rx="8"
+      ry="8"
+      fill="#000000"
+      fill-opacity="0.22" />
+    <rect
+      id="feed2_bg"
+      x="214"
+      y="96"
+      width="180"
+      height="188"
+      rx="8"
+      ry="8"
+      fill="#000000"
+      fill-opacity="0.22" />
+
+    <g id="feed1_status" class="On">
+      <g class="state_on" id="feed1_status_on">
+        <rect
+          id="feed1_pill_on"
+          x="29"
+          y="114"
+          width="150"
+          height="40"
+          rx="20"
+          ry="20"
+          fill="#22c55e"
+          fill-opacity="0.15"
+          stroke="#22c55e"
+          stroke-width="1.5" />
+        <text
+          id="feed1_pill_on_text"
+          x="104"
+          y="142"
+          text-anchor="middle"
+          font-size="21px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          fill="#22c55e">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+      </g>
+      <g class="state_off" id="feed1_status_off">
+        <rect
+          id="feed1_pill_off"
+          x="29"
+          y="114"
+          width="150"
+          height="40"
+          rx="20"
+          ry="20"
+          fill="#ef4444"
+          fill-opacity="0.15"
+          stroke="#ef4444"
+          stroke-width="1.5" />
+        <text
+          id="feed1_pill_off_text"
+          x="104"
+          y="142"
+          text-anchor="middle"
+          font-size="21px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          fill="#ef4444">&#1054;&#1090;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+      </g>
+    </g>
+
+    <g id="feed2_status" class="On">
+      <g class="state_on" id="feed2_status_on">
+        <rect
+          id="feed2_pill_on"
+          x="229"
+          y="114"
+          width="150"
+          height="40"
+          rx="20"
+          ry="20"
+          fill="#22c55e"
+          fill-opacity="0.15"
+          stroke="#22c55e"
+          stroke-width="1.5" />
+        <text
+          id="feed2_pill_on_text"
+          x="304"
+          y="142"
+          text-anchor="middle"
+          font-size="21px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          fill="#22c55e">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+      </g>
+      <g class="state_off" id="feed2_status_off">
+        <rect
+          id="feed2_pill_off"
+          x="229"
+          y="114"
+          width="150"
+          height="40"
+          rx="20"
+          ry="20"
+          fill="#ef4444"
+          fill-opacity="0.15"
+          stroke="#ef4444"
+          stroke-width="1.5" />
+        <text
+          id="feed2_pill_off_text"
+          x="304"
+          y="142"
+          text-anchor="middle"
+          font-size="21px"
+          font-family="Segoe UI, Sans"
+          font-weight="700"
+          fill="#ef4444">&#1054;&#1090;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+      </g>
+    </g>
+
+    <g id="feed1_l1" class="On">
+      <circle
+        class="state_on"
+        id="feed1_l1_dot_on"
+        cx="49"
+        cy="200"
+        r="12"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="state_off"
+        id="feed1_l1_dot_off"
+        cx="49"
+        cy="200"
+        r="12"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+    <g id="feed1_l2" class="On">
+      <circle
+        class="state_on"
+        id="feed1_l2_dot_on"
+        cx="104"
+        cy="200"
+        r="12"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="state_off"
+        id="feed1_l2_dot_off"
+        cx="104"
+        cy="200"
+        r="12"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+    <g id="feed1_l3" class="On">
+      <circle
+        class="state_on"
+        id="feed1_l3_dot_on"
+        cx="159"
+        cy="200"
+        r="12"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="state_off"
+        id="feed1_l3_dot_off"
+        cx="159"
+        cy="200"
+        r="12"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+
+    <g id="feed2_l1" class="On">
+      <circle
+        class="state_on"
+        id="feed2_l1_dot_on"
+        cx="249"
+        cy="200"
+        r="12"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="state_off"
+        id="feed2_l1_dot_off"
+        cx="249"
+        cy="200"
+        r="12"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+    <g id="feed2_l2" class="On">
+      <circle
+        class="state_on"
+        id="feed2_l2_dot_on"
+        cx="304"
+        cy="200"
+        r="12"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="state_off"
+        id="feed2_l2_dot_off"
+        cx="304"
+        cy="200"
+        r="12"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+    <g id="feed2_l3" class="On">
+      <circle
+        class="state_on"
+        id="feed2_l3_dot_on"
+        cx="359"
+        cy="200"
+        r="12"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="state_off"
+        id="feed2_l3_dot_off"
+        cx="359"
+        cy="200"
+        r="12"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+
+    <g id="unit_group" fill="#f59e0b">
+      <text
+        id="feed1_l1_name"
+        x="49"
+        y="252"
+        text-anchor="middle"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">L1</text>
+      <text
+        id="feed1_l2_name"
+        x="104"
+        y="252"
+        text-anchor="middle"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">L2</text>
+      <text
+        id="feed1_l3_name"
+        x="159"
+        y="252"
+        text-anchor="middle"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">L3</text>
+      <text
+        id="feed2_l1_name"
+        x="249"
+        y="252"
+        text-anchor="middle"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">L1</text>
+      <text
+        id="feed2_l2_name"
+        x="304"
+        y="252"
+        text-anchor="middle"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">L2</text>
+      <text
+        id="feed2_l3_name"
+        x="359"
+        y="252"
+        text-anchor="middle"
+        font-size="22px"
+        font-family="Segoe UI, Sans"
+        font-weight="700">L3</text>
+    </g>
+  </g>
+</svg>

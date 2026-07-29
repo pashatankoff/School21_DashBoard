@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="TileName" DisplayName="Название плитки" Type="STRING" ParamType="Attribute" ItemId="name_text" Path="Content" />
+    <ParameterDef Name="TileTitleColor" DisplayName="Цвет заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="name_text" Path="fill" />
+    <ParameterDef Name="TileBackgroundColor" DisplayName="Цвет фона плитки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="tile_bg" Path="fill" />
+    <ParameterDef Name="LabelColor" DisplayName="Цвет подписей слева" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="label_group" Path="fill" />
+    <ParameterDef Name="UnitColor" DisplayName="Цвет единиц измерения" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="unit_group" Path="fill" />
+    <ParameterDef Name="FlowValue" DisplayName="Расход" Type="STRING" ParamType="Attribute" ItemId="flow_value" Path="Content" />
+    <ParameterDef Name="FlowValueColor" DisplayName="Цвет значения расхода" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="flow_value" Path="fill" />
+    <ParameterDef Name="TotalValue" DisplayName="Всего" Type="STRING" ParamType="Attribute" ItemId="total_value" Path="Content" />
+    <ParameterDef Name="TotalValueColor" DisplayName="Цвет значения Всего" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="total_value" Path="fill" />
+    <ParameterDef Name="Leak1Name" DisplayName="Название точки 1" Type="STRING" ParamType="Attribute" ItemId="leak1_label" Path="Content" />
+    <ParameterDef Name="Leak2Name" DisplayName="Название точки 2" Type="STRING" ParamType="Attribute" ItemId="leak2_label" Path="Content" />
+    <ParameterDef Name="Leak3Name" DisplayName="Название точки 3" Type="STRING" ParamType="Attribute" ItemId="leak3_label" Path="Content" />
+    <ParameterDef Name="LeakServer" DisplayName="Протечка Серверная" Type="STRING" ParamType="Attribute" ItemId="leak1" Path="class">
+      <Value DisplayName="Норма">Normal</Value>
+      <Value DisplayName="Авария">Alarm</Value>
+    </ParameterDef>
+    <ParameterDef Name="LeakVent" DisplayName="Протечка Венткамера" Type="STRING" ParamType="Attribute" ItemId="leak2" Path="class">
+      <Value DisplayName="Норма">Normal</Value>
+      <Value DisplayName="Авария">Alarm</Value>
+    </ParameterDef>
+    <ParameterDef Name="LeakITP" DisplayName="Протечка ИТП" Type="STRING" ParamType="Attribute" ItemId="leak3" Path="class">
+      <Value DisplayName="Норма">Normal</Value>
+      <Value DisplayName="Авария">Alarm</Value>
+    </ParameterDef>
+  </ParameterDefs>
+</SvgDef>

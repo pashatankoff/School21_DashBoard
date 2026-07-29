@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="TileName" DisplayName="Название плитки" Type="STRING" ParamType="Attribute" ItemId="name_text" Path="Content" />
+    <ParameterDef Name="TileTitleColor" DisplayName="Цвет заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="name_text" Path="fill" />
+    <ParameterDef Name="TileBackgroundColor" DisplayName="Цвет фона плитки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="tile_bg" Path="fill" />
+    <ParameterDef Name="LabelColor" DisplayName="Цвет подписей слева" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="label_group" Path="fill" />
+    <ParameterDef Name="UnitColor" DisplayName="Цвет единиц" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="unit_group" Path="fill" />
+    <ParameterDef Name="Feed1Status" DisplayName="ВВОД 1 Подключено" Type="STRING" ParamType="Attribute" ItemId="feed1_status" Path="class">
+      <Value DisplayName="Подключено">On</Value>
+      <Value DisplayName="Отключено">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed1L1" DisplayName="ВВОД 1 фаза L1" Type="STRING" ParamType="Attribute" ItemId="feed1_l1" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed1L2" DisplayName="ВВОД 1 фаза L2" Type="STRING" ParamType="Attribute" ItemId="feed1_l2" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed1L3" DisplayName="ВВОД 1 фаза L3" Type="STRING" ParamType="Attribute" ItemId="feed1_l3" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed2Status" DisplayName="ВВОД 2 Подключено" Type="STRING" ParamType="Attribute" ItemId="feed2_status" Path="class">
+      <Value DisplayName="Подключено">On</Value>
+      <Value DisplayName="Отключено">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed2L1" DisplayName="ВВОД 2 фаза L1" Type="STRING" ParamType="Attribute" ItemId="feed2_l1" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed2L2" DisplayName="ВВОД 2 фаза L2" Type="STRING" ParamType="Attribute" ItemId="feed2_l2" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="Feed2L3" DisplayName="ВВОД 2 фаза L3" Type="STRING" ParamType="Attribute" ItemId="feed2_l3" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+  </ParameterDefs>
+</SvgDef>

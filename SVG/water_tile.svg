@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  width="408"
+  height="299"
+  viewBox="0 0 408 299"
+  version="1.1"
+  id="svg-water-tile"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1">
+    <filter id="glow_green" x="-150%" y="-150%" width="400%" height="400%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#22c55e" flood-opacity="0.9" />
+    </filter>
+    <filter id="glow_red" x="-150%" y="-150%" width="400%" height="400%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#ef4444" flood-opacity="0.9" />
+    </filter>
+  </defs>
+  <style type="text/css" id="style1"><![CDATA[
+    .dot_alarm { display: none; }
+    .dot_normal { display: inline; }
+    g.Alarm .dot_alarm { display: inline; animation: leak_blink 1.2s ease-in-out infinite; }
+    g.Alarm .dot_normal { display: none; }
+    @keyframes leak_blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.15; }
+    }
+  ]]></style>
+  <g id="water_tile">
+    <rect
+      id="tile_bg"
+      x="2"
+      y="2"
+      width="404"
+      height="295"
+      rx="12"
+      ry="12"
+      fill="#151e32"
+      stroke="#2a3a55"
+      stroke-width="2" />
+
+    <text
+      id="name_text"
+      x="14"
+      y="36"
+      font-size="28px"
+      font-family="Segoe UI, Sans"
+      font-weight="700"
+      letter-spacing="0.5px"
+      fill="#94a3b8">&#1042;&#1054;&#1044;&#1054;&#1057;&#1053;&#1040;&#1041;&#1046;&#1045;&#1053;&#1048;&#1045;</text>
+
+    <g id="label_group" fill="#94a3b8">
+      <text
+        id="flow_label"
+        x="14"
+        y="90"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1056;&#1072;&#1089;&#1093;&#1086;&#1076;</text>
+      <text
+        id="total_label"
+        x="14"
+        y="121"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1042;&#1089;&#1077;&#1075;&#1086;</text>
+      <text
+        id="leaks_label"
+        x="14"
+        y="159"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1055;&#1088;&#1086;&#1090;&#1077;&#1095;&#1082;&#1080;</text>
+      <text
+        id="leak1_label"
+        x="34"
+        y="192"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1057;&#1077;&#1088;&#1074;&#1077;&#1088;&#1085;&#1072;&#1103;</text>
+      <text
+        id="leak2_label"
+        x="34"
+        y="222"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1042;&#1077;&#1085;&#1090;&#1082;&#1072;&#1084;&#1077;&#1088;&#1072;</text>
+      <text
+        id="leak3_label"
+        x="34"
+        y="252"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="600">&#1048;&#1058;&#1055;</text>
+    </g>
+
+    <text
+      id="flow_value"
+      x="326"
+      y="90"
+      text-anchor="end"
+      font-size="28px"
+      font-family="Segoe UI, Sans"
+      font-weight="800"
+      fill="#38bdf8">2.4</text>
+    <text
+      id="total_value"
+      x="352"
+      y="121"
+      text-anchor="end"
+      font-size="28px"
+      font-family="Segoe UI, Sans"
+      font-weight="800"
+      fill="#38bdf8">145.2</text>
+
+    <g id="unit_group" fill="#94a3b8">
+      <text
+        id="flow_unit"
+        x="394"
+        y="90"
+        text-anchor="end"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="800">&#1084;&#179;/&#1095;</text>
+      <text
+        id="total_unit"
+        x="394"
+        y="121"
+        text-anchor="end"
+        font-size="28px"
+        font-family="Segoe UI, Sans"
+        font-weight="800">&#1084;&#179;</text>
+    </g>
+
+    <rect
+      id="leak_group_bg"
+      x="14"
+      y="166"
+      width="380"
+      height="96"
+      rx="8"
+      ry="8"
+      fill="#000000"
+      fill-opacity="0.22" />
+
+    <rect
+      id="leak_group_stripe"
+      x="22"
+      y="170"
+      width="2"
+      height="88"
+      rx="1"
+      ry="1"
+      fill="#22c55e" />
+
+    <g id="leak1" class="Normal">
+      <circle
+        class="dot_normal"
+        id="leak1_dot_normal"
+        cx="376"
+        cy="184"
+        r="10"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="dot_alarm"
+        id="leak1_dot_alarm"
+        cx="376"
+        cy="184"
+        r="10"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+
+    <g id="leak2" class="Normal">
+      <circle
+        class="dot_normal"
+        id="leak2_dot_normal"
+        cx="376"
+        cy="214"
+        r="10"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="dot_alarm"
+        id="leak2_dot_alarm"
+        cx="376"
+        cy="214"
+        r="10"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+
+    <g id="leak3" class="Normal">
+      <circle
+        class="dot_normal"
+        id="leak3_dot_normal"
+        cx="376"
+        cy="244"
+        r="10"
+        fill="#22c55e"
+        filter="url(#glow_green)" />
+      <circle
+        class="dot_alarm"
+        id="leak3_dot_alarm"
+        cx="376"
+        cy="244"
+        r="10"
+        fill="#ef4444"
+        filter="url(#glow_red)" />
+    </g>
+  </g>
+</svg>
