@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  width="100"
+  height="90"
+  viewBox="0 0 100 90"
+  version="1.1"
+  id="svg-nav-btn-vent-tile"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1" />
+  <style type="text/css" id="style1"><![CDATA[
+    g.Off#badge_group, g.Off #badge_group, #badge_group.Off { display: none; }
+    g.On#badge_group, g.On #badge_group, #badge_group.On { display: inline; }
+
+    /* Normal State */
+    #nav_button.Normal #tile_bg { fill: transparent; }
+    #nav_button.Normal #icon_circle,
+    #nav_button.Normal #icon_path { stroke: #94a3b8; }
+    #nav_button.Normal #name_text { fill: #94a3b8; }
+
+    /* Hover State */
+    #nav_button.Hover #tile_bg { fill: #1e293b; }
+    #nav_button.Hover #icon_circle,
+    #nav_button.Hover #icon_path { stroke: #f8fafc; }
+    #nav_button.Hover #name_text { fill: #f8fafc; }
+
+    /* Active State */
+    #nav_button.Active #tile_bg { fill: #1e293b; }
+    #nav_button.Active #icon_circle,
+    #nav_button.Active #icon_path { stroke: #38bdf8; }
+    #nav_button.Active #name_text { fill: #38bdf8; }
+  ]]></style>
+  <g id="nav_button" class="Normal">
+    <rect
+      id="tile_bg"
+      x="2"
+      y="2"
+      width="96"
+      height="86"
+      rx="8"
+      ry="8"
+      fill="transparent" />
+
+    <g id="icon_group" transform="translate(32, 14) scale(1.5)">
+      <circle
+        id="icon_circle"
+        cx="12"
+        cy="12"
+        r="3"
+        fill="none"
+        stroke="#94a3b8"
+        stroke-width="2" />
+      <path
+        id="icon_path"
+        d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
+        fill="none"
+        stroke="#94a3b8"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round" />
+    </g>
+
+    <text
+      id="name_text"
+      x="50"
+      y="70"
+      text-anchor="middle"
+      font-size="12px"
+      font-family="Segoe UI, Sans"
+      font-weight="600">&#1042;&#1077;&#1085;&#1090;&#1080;&#1083;&#1103;&#1094;&#1080;&#1103;</text>
+
+    <g id="badge_group" class="Off">
+      <circle
+        id="badge_bg"
+        cx="78"
+        cy="18"
+        r="11"
+        fill="#ef4444" />
+      <text
+        id="badge_text"
+        x="78"
+        y="22"
+        text-anchor="middle"
+        font-size="11px"
+        font-family="Segoe UI, Sans"
+        font-weight="800"
+        fill="#ffffff">0</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Klapan reguliruyushchiy pritochnyy (supply control damper).
+  Upravlenie:
+    1) Class na gruppe #reg_valve_tile: open | closed | partial | fault
+       (cvet teksta sostoyaniya i ramki pri avarii).
+    2) Tekst #pos_value - stepen otkrytiya v procentah.
+    3) Povorot lamelej: transform="rotate(A)" na gruppah
+       #blade_rot_1, #blade_rot_2, #blade_rot_3.
+       Formula: A = (100 - percent) * 0.9
+         percent <= 0   : A = 90  (lameli vertikalno, polnostyu ZAKRYTO)
+         percent >= 100 : A = 0   (lameli gorizontalno, polnostyu OTKRYTO)
+       Po umolchaniyu vystavleno 0% (A = 90).
+  Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
+  ostavalsya chisto ASCII i ne zavisel ot kodirovki.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="100"
+  height="100"
+  viewBox="0 0 100 100"
+  id="svg-supply-control-valve">
+  <defs>
+    <clipPath id="rv_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <style type="text/css"><![CDATA[
+      /* sostoyanie: class na #reg_valve_tile */
+      #reg_valve_tile.open    #status_text { fill: #4ade80; }
+      #reg_valve_tile.partial #status_text { fill: #fbbf24; }
+      #reg_valve_tile.closed  #status_text { fill: #94a3b8; }
+      #reg_valve_tile.fault   #status_text { fill: #ef4444; }
+      #reg_valve_tile.fault   #tile_bg     { stroke: #ef4444; }
+      #reg_valve_tile.fault   #pos_value   { fill: #ef4444; }
+
+      /* presety polozheniya lamelej: class pos0 / pos100 na #reg_valve_tile */
+      #reg_valve_tile.pos0 #blade_rot_1,
+      #reg_valve_tile.pos0 #blade_rot_2,
+      #reg_valve_tile.pos0 #blade_rot_3 {
+        transform-box: fill-box;
+        transform-origin: center;
+        transform: rotate(90deg);
+      }
+      #reg_valve_tile.pos100 #blade_rot_1,
+      #reg_valve_tile.pos100 #blade_rot_2,
+      #reg_valve_tile.pos100 #blade_rot_3 {
+        transform-box: fill-box;
+        transform-origin: center;
+        transform: rotate(0deg);
+      }
+    ]]></style>
+  </defs>
+
+  <!-- class: open | closed | partial | fault -->
+  <g id="reg_valve_tile" class="closed">
+
+    <!-- Fon; vneshnij gabarit ramki rovno 100x100 -->
+    <rect id="tile_bg"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="#1a1d21"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#rv_tile_clip)">
+
+      <!-- Verhnyaya zona: procent otkrytiya -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Nizhnyaya zona: sostoyanie -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Srednyaya zona: lameli (ot 20 do 80) -->
+
+      <!-- Lameli: rotate(A), A = (100 - percent) * 0.9
+           pri zakrytii (90deg) vysota = 2*rx = 20px,
+           centry 30/50/70 — tri lameli plotno 20..80 bez zazorov -->
+      <g id="blades" fill="#d1d5db" stroke="#4b5563" stroke-width="0.4">
+        <g id="blade_1" transform="translate(50,30)">
+          <g id="blade_rot_1" transform="rotate(90)">
+            <ellipse cx="0" cy="0" rx="10" ry="3"/>
+            <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+          </g>
+        </g>
+        <g id="blade_2" transform="translate(50,50)">
+          <g id="blade_rot_2" transform="rotate(90)">
+            <ellipse cx="0" cy="0" rx="10" ry="3"/>
+            <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+          </g>
+        </g>
+        <g id="blade_3" transform="translate(50,70)">
+          <g id="blade_rot_3" transform="rotate(90)">
+            <ellipse cx="0" cy="0" rx="10" ry="3"/>
+            <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- Znachenie stepeni otkrytiya -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">0%</text>
+
+    <!-- Sostoyanie: OTKRYTO | ZAKRYTO | AVARIYA -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x417;&#x410;&#x41A;&#x420;&#x42B;&#x422;&#x41E;</text>
+  </g>
+</svg>
