@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Klapan reguliruyushchiy - element dlya MasterSCADA.
+  Koordinatnaya sistema: 100x100 (viewBox).
+  Masshtab vyvoda: 166.6667 px (~500/3) - srednyaya zona (60 edinic,
+  y = 20..80) na ekrane rovno 100 px.
+
+  POVOROT ZASLONOK:
+    Parametr zapisyvaet stroku "rotate(A)" v atribut transform
+    prototipa #blade_rot. A - ugol v gradusah:
+      A = 90 : lameli vertikalno   - ZAKRYTO   (0%)
+      A = 0  : lameli gorizontalno - OTKRYTO (100%)
+    Konvertaciya iz procenta na storone SCADA:
+      A = (100 - percent) * 0.9
+      znachenie parametra: "rotate(" + A + ")"
+    Vse tri lameli - kopii (<use>) odnogo prototipa #blade_rot,
+    poetomu povorachivayutsya sinhronno ot odnogo parametra.
+
+  Privyazki (sm. parnyj fajl klapan_reg_scada.xml):
+    #blade_rot   transform  - povorot zaslonok, stroka "rotate(A)"
+    #pos_value   Content    - tekst procentov
+    #pos_value   visibility - vidimost' teksta procentov (visible|hidden)
+    #pos_value   fill       - cvet teksta zagolovka
+    #blades      fill       - cvet zaslonok
+    #status_text Content    - tekst nizhnej zony
+    #status_text fill       - cvet teksta nizhnej zony
+    #top_band    fill       - fon zagolovka
+    #mid_band    fill       - fon central'noj chasti
+    #bottom_band fill       - fon nizhnej zony
+
+  Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
+  ostavalsya chisto ASCII i ne zavisel ot kodirovki.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-reg-valve-scada">
+  <defs>
+    <clipPath id="rvs_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Prototip lameli. Povorot vseh treh zaslonok - odin atribut
+         transform="rotate(A)" na etoj gruppe. Geometriya centrirovana
+         v (0,0), poetomu rotate vrashchaet lamel vokrug ee centra. -->
+    <g id="blade_rot" transform="rotate(90)">
+      <ellipse cx="0" cy="0" rx="10" ry="3"/>
+      <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+    </g>
+  </defs>
+
+  <g id="reg_valve_scada">
+
+    <!-- Ramka; vneshnij gabarit rovno 100x100 v viewBox -->
+    <rect id="tile_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#rvs_tile_clip)">
+
+      <!-- Fon central'noj chasti (perekryvaetsya polosami sverhu/snizu) -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="#1a1d21"/>
+
+      <!-- Fon zagolovka (verhnyaya zona, procent) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Fon nizhnej zony (tekst sostoyaniya) -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Zaslonki: cvet - atribut fill na #blades;
+           pri zakrytii (rotate(90)) vysota lameli = 2*rx = 20px,
+           centry 30/50/70 - tri lameli plotno 20..80 bez zazorov -->
+      <g id="blades" fill="#d1d5db" stroke="#4b5563" stroke-width="0.4">
+        <use id="blade_1" href="#blade_rot" xlink:href="#blade_rot" transform="translate(50,30)"/>
+        <use id="blade_2" href="#blade_rot" xlink:href="#blade_rot" transform="translate(50,50)"/>
+        <use id="blade_3" href="#blade_rot" xlink:href="#blade_rot" transform="translate(50,70)"/>
+      </g>
+    </g>
+
+    <!-- Zagolovok: procent otkrytiya.
+         Vidimost' - atribut visibility ("visible" | "hidden"),
+         cvet - atribut fill -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">0%</text>
+
+    <!-- Nizhnyaya zona: tekst sostoyaniya, cvet - atribut fill -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x417;&#x410;&#x41A;&#x420;&#x42B;&#x422;&#x41E;</text>
+  </g>
+</svg>

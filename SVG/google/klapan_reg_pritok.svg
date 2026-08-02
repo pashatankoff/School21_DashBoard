@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
   Klapan reguliruyushchiy pritochnyy (supply control damper).
+  Koordinatnaya sistema: 100x100 (viewBox).
+  Masshtab vyvoda: 166.6667 px (~500/3), chtoby srednyaya temnaya
+  oblast' (60 edinic viewBox, y = 20..80) stala rovno 100 px:
+    166.6667 * (60/100) = 100.
+
   Upravlenie:
     1) Class na gruppe #reg_valve_tile: open | closed | partial | fault
        (cvet teksta sostoyaniya i ramki pri avarii).
@@ -14,18 +19,53 @@
   Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
   ostavalsya chisto ASCII i ne zavisel ot kodirovki.
 -->
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="100"
-  height="100"
-  viewBox="0 0 100 100"
-  id="svg-supply-control-valve">
-  <defs>
-    <clipPath id="rv_tile_clip">
-      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
-    </clipPath>
 
-    <style type="text/css"><![CDATA[
+<svg
+   width="166.6667"
+   height="166.6667"
+   viewBox="0 0 100 100"
+   id="svg-supply-control-valve"
+   version="1.1"
+   sodipodi:docname="klapan_reg_pritok.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.4577514"
+     inkscape:cx="89.219832"
+     inkscape:cy="107.72897"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1272"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="reg_valve_tile" />
+  <defs
+     id="defs1">
+    <clipPath
+       id="rv_tile_clip">
+      <rect
+         x="0.75"
+         y="0.75"
+         width="98.5"
+         height="98.5"
+         rx="8"
+         ry="8"
+         id="rect1" />
+    </clipPath>
+    <style
+       type="text/css"
+       id="style1"><![CDATA[
       /* sostoyanie: class na #reg_valve_tile */
       #reg_valve_tile.open    #status_text { fill: #4ade80; }
       #reg_valve_tile.partial #status_text { fill: #fbbf24; }
@@ -51,72 +91,167 @@
       }
     ]]></style>
   </defs>
-
   <!-- class: open | closed | partial | fault -->
-  <g id="reg_valve_tile" class="closed">
-
-    <!-- Fon; vneshnij gabarit ramki rovno 100x100 -->
-    <rect id="tile_bg"
-      x="0.75" y="0.75" width="98.5" height="98.5"
-      rx="8" ry="8"
-      fill="#1a1d21"
-      stroke="#d1d5db"
-      stroke-width="1.5"/>
-
-    <g clip-path="url(#rv_tile_clip)">
-
+  <g
+     id="reg_valve_tile"
+     class="closed">
+    <!-- Fon; vneshnij gabarit ramki rovno 100x100 v viewBox -->
+    <rect
+       id="tile_bg"
+       x="0.75"
+       y="0.44999993"
+       width="98.5"
+       height="98.800003"
+       rx="8"
+       ry="8"
+       fill="#1a1d21"
+       stroke="#d1d5db"
+       stroke-width="1.5" />
+    <g
+       clip-path="url(#rv_tile_clip)"
+       id="g4"
+       transform="matrix(0.98441605,0,0,0.98755296,0.7491613,0.47620636)"
+       style="stroke-width:1.01422">
       <!-- Verhnyaya zona: procent otkrytiya -->
-      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
-      <line x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
-
+      <rect
+         id="top_band"
+         x="0.75"
+         y="0.75"
+         width="98.5"
+         height="19.25"
+         fill="#23272e"
+         style="stroke-width:1.01422" />
+      <line
+         x1="0.75"
+         y1="20"
+         x2="99.25"
+         y2="20"
+         stroke="#3b4048"
+         stroke-width="1.01422"
+         id="line1" />
       <!-- Nizhnyaya zona: sostoyanie -->
-      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
-      <line x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
-
-      <!-- Srednyaya zona: lameli (ot 20 do 80) -->
-
+      <rect
+         id="bottom_band"
+         x="0.75"
+         y="80"
+         width="98.5"
+         height="19.25"
+         fill="#23272e"
+         style="stroke-width:1.01422" />
+      <line
+         x1="0.75"
+         y1="80"
+         x2="99.25"
+         y2="80"
+         stroke="#3b4048"
+         stroke-width="1.01422"
+         id="line2" />
+      <!-- Srednyaya zona: lameli (ot 20 do 80 = 60 edinic viewBox = 100 px na vyhode) -->
       <!-- Lameli: rotate(A), A = (100 - percent) * 0.9
            pri zakrytii (90deg) vysota = 2*rx = 20px,
            centry 30/50/70 — tri lameli plotno 20..80 bez zazorov -->
-      <g id="blades" fill="#d1d5db" stroke="#4b5563" stroke-width="0.4">
-        <g id="blade_1" transform="translate(50,30)">
-          <g id="blade_rot_1" transform="rotate(90)">
-            <ellipse cx="0" cy="0" rx="10" ry="3"/>
-            <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+      <g
+         id="blades"
+         fill="#d1d5db"
+         stroke="#4b5563"
+         stroke-width="0.405685">
+        <g
+           id="blade_1"
+           transform="translate(50,30)"
+           style="stroke-width:0.405685">
+          <g
+             id="blade_rot_1"
+             transform="rotate(90)"
+             style="stroke-width:0.405685">
+            <ellipse
+               cx="0"
+               cy="0"
+               rx="10"
+               ry="3"
+               id="ellipse2"
+               style="stroke-width:0.405685" />
+            <circle
+               cx="0"
+               cy="0"
+               r="1.1"
+               fill="#1a1d21"
+               stroke="none"
+               id="circle2"
+               style="stroke-width:0.405685" />
           </g>
         </g>
-        <g id="blade_2" transform="translate(50,50)">
-          <g id="blade_rot_2" transform="rotate(90)">
-            <ellipse cx="0" cy="0" rx="10" ry="3"/>
-            <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+        <g
+           id="blade_2"
+           transform="translate(50,50)"
+           style="stroke-width:0.405685">
+          <g
+             id="blade_rot_2"
+             transform="rotate(90)"
+             style="stroke-width:0.405685">
+            <ellipse
+               cx="0"
+               cy="0"
+               rx="10"
+               ry="3"
+               id="ellipse3"
+               style="stroke-width:0.405685" />
+            <circle
+               cx="0"
+               cy="0"
+               r="1.1"
+               fill="#1a1d21"
+               stroke="none"
+               id="circle3"
+               style="stroke-width:0.405685" />
           </g>
         </g>
-        <g id="blade_3" transform="translate(50,70)">
-          <g id="blade_rot_3" transform="rotate(90)">
-            <ellipse cx="0" cy="0" rx="10" ry="3"/>
-            <circle cx="0" cy="0" r="1.1" fill="#1a1d21" stroke="none"/>
+        <g
+           id="blade_3"
+           transform="translate(50,70)"
+           style="stroke-width:0.405685">
+          <g
+             id="blade_rot_3"
+             transform="rotate(90)"
+             style="stroke-width:0.405685">
+            <ellipse
+               cx="0"
+               cy="0"
+               rx="10"
+               ry="3"
+               id="ellipse4"
+               style="stroke-width:0.405685" />
+            <circle
+               cx="0"
+               cy="0"
+               r="1.1"
+               fill="#1a1d21"
+               stroke="none"
+               id="circle4"
+               style="stroke-width:0.405685" />
           </g>
         </g>
       </g>
     </g>
-
     <!-- Znachenie stepeni otkrytiya -->
-    <text id="pos_value"
-      x="50" y="14.5"
-      text-anchor="middle"
-      font-family="Segoe UI, Arial, sans-serif"
-      font-size="11"
-      font-weight="700"
-      fill="#e5e7eb">0%</text>
-
+    <text
+       id="pos_value"
+       x="50"
+       y="14.5"
+       text-anchor="middle"
+       font-family="Segoe UI, Arial, sans-serif"
+       font-size="11"
+       font-weight="700"
+       fill="#e5e7eb">0%</text>
     <!-- Sostoyanie: OTKRYTO | ZAKRYTO | AVARIYA -->
-    <text id="status_text"
-      x="50" y="93"
-      text-anchor="middle"
-      font-family="Segoe UI, Arial, sans-serif"
-      font-size="9"
-      font-weight="700"
-      letter-spacing="0.5"
-      fill="#94a3b8">&#x417;&#x410;&#x41A;&#x420;&#x42B;&#x422;&#x41E;</text>
+    <text
+       id="status_text"
+       x="50"
+       y="93"
+       text-anchor="middle"
+       font-family="Segoe UI, Arial, sans-serif"
+       font-size="9"
+       font-weight="700"
+       letter-spacing="0.5"
+       fill="#94a3b8">ЗАКРЫТО</text>
   </g>
 </svg>

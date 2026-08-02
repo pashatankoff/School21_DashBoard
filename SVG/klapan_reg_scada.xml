@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="BladesRotate" DisplayName="Поворот заслонок строкой rotate(A), 90=закрыто, 0=открыто" Type="STRING" ParamType="Attribute" ItemId="blade_rot" Path="transform" />
+    <ParameterDef Name="PercentText" DisplayName="Текст процентов" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
+    <ParameterDef Name="PercentTextVisible" DisplayName="Видимость текста процентов" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+    <ParameterDef Name="BladesColor" DisplayName="Цвет заслонок" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="blades" Path="fill" />
+    <ParameterDef Name="HeaderTextColor" DisplayName="Цвет текста заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pos_value" Path="fill" />
+    <ParameterDef Name="StatusText" DisplayName="Текст нижней зоны" Type="STRING" ParamType="Attribute" ItemId="status_text" Path="Content" />
+    <ParameterDef Name="StatusTextColor" DisplayName="Цвет текста нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="status_text" Path="fill" />
+    <ParameterDef Name="HeaderBackgroundColor" DisplayName="Цвет фона заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="top_band" Path="fill" />
+    <ParameterDef Name="MiddleBackgroundColor" DisplayName="Цвет фона центральной части" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="mid_band" Path="fill" />
+    <ParameterDef Name="BottomBackgroundColor" DisplayName="Цвет фона нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="bottom_band" Path="fill" />
+  </ParameterDefs>
+</SvgDef>
