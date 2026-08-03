@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Filter pritok - element dlya MasterSCADA.
+  Koordinatnaya sistema: 100x100 (viewBox).
+  Masshtab vyvoda: 166.6667 px (~500/3) - srednyaya zona (60 edinic,
+  y = 20..80) na ekrane rovno 100 px.
+
+  FILTRUYUSHCHIE ELEMENTY:
+    Triugolnye elementy v centre, napravlenie potoka sleva napravo.
+    Parametr "FilterState" mozhet menyat' sostoyanie (chistyy/zagrjaznen).
+
+  Privyazki (sm. parnyj fajl filter_pritok_scada.xml):
+    #filter_media   fill       - cvet filtruyushchego elementa
+    #filter_media  opacity    - prozrachnost' (zagrjaznenie)
+    #pos_value     Content    - tekst sostoyaniya (procent zagrjazneniya)
+    #pos_value     visibility - vidimost' teksta
+    #pos_value     fill       - cvet teksta zagolovka
+    #status_text   Content    - tekst nizhnej zony
+    #status_text   fill       - cvet teksta nizhnej zony
+    #top_band      fill       - fon zagolovka
+    #mid_band      fill       - fon central'noj chasti
+    #bottom_band   fill       - fon nizhnej zony
+    #flow_arrow    fill       - cvet strelki potoka
+    #frame_border  stroke     - cvet ramki
+
+  Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
+  ostavalsya chisto ASCII i ne zavisel ot kodirovki.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-filter-pritok-scada">
+  <defs>
+    <clipPath id="fps_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Prototip treugol'nogo filtruyushchego elementa (uvelichen v 2 raza, s skругленными углами).
+         Centr v (0,0), osnovanie po vertikali, vershina vpravo (potok ->).
+         Vysota treugolnika = 24, osnovanie = 16. Radius skругления = 2.5. -->
+    <g id="filter_triangle_proto">
+      <path d="M-12,-5.5 Q-12,-8 -9.5,-8 L9.5,-2.5 Q12,0 9.5,2.5 L-9.5,8 Q-12,8 -12,5.5 Z"
+        stroke="#4b5563" stroke-width="0.5" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Strelka napravleniya potoka (dlya indikacii) -->
+    <g id="flow_arrow_proto">
+      <path d="M-8,0 L8,0 M3,-4 L8,0 L3,4" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </defs>
+
+  <g id="filter_pritok_scada">
+
+    <!-- Ramka; vneshnij gabarit rovno 100x100 v viewBox -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#fps_tile_clip)">
+
+      <!-- Fon central'noj chasti (perekryvaetsya polosami sverhu/snizu) -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="#1a1d21"/>
+
+      <!-- Fon zagolovka (verhnyaya zona, procent zagrjazneniya) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Fon nizhnej zony (tekst sostoyaniya) -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Strelki napravleniya potoka (sleva napravo) -->
+      <g id="flow_arrows" fill="none" stroke="#94a3b8" stroke-width="1.2" opacity="0.6">
+        <use xlink:href="#flow_arrow_proto" transform="translate(20,50)"/>
+        <use xlink:href="#flow_arrow_proto" transform="translate(80,50)"/>
+      </g>
+
+      <!-- Filtruyushchie elementy: 3 treugolnika v centre central'noy zony (y=20..80).
+           Centr v (50,50), treugolniki uvelicheny v 2 raza (vysota 24).
+           Pozitsii: y=32, 50, 68 (verh/centr/niz vnutri zony s otstupom 12).
+           Gradient tonov: verhniy svetlyy (#d1d5db) -> seredniy (#9ca3af) -> nizhniy temnyy (#8c939c). -->
+      <g id="filter_media" stroke="#4b5563" stroke-width="0.5">
+        <use id="tri_1" xlink:href="#filter_triangle_proto" transform="translate(50,32)" fill="#d1d5db"/>
+        <use id="tri_2" xlink:href="#filter_triangle_proto" transform="translate(50,50)" fill="#9ca3af"/>
+        <use id="tri_3" xlink:href="#filter_triangle_proto" transform="translate(50,68)" fill="#8c939c"/>
+      </g>
+
+      <!-- Ramochka vokrug filtruyushchey zony (vnutri central'noy zony y=20..80, s zapasom dlya bol'shih treugolnikov) -->
+      <rect x="30" y="20.5" width="40" height="59"
+        fill="none" stroke="#3b4048" stroke-width="0.8" rx="3" ry="3"/>
+    </g>
+
+    <!-- Zagolovok: procent zagrjazneniya filtra.
+         Vidimost' - atribut visibility ("visible" | "hidden"),
+         cvet - atribut fill -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">0%</text>
+
+    <!-- Nizhnyaya zona: tekst sostoyaniya, cvet - atribut fill -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x427;&#x438;&#x441;&#x442;&#x43E;</text>
+  </g>
+</svg>

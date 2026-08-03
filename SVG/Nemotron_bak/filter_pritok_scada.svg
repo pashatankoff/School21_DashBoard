@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Filter pritok - element dlya MasterSCADA.
+  Koordinatnaya sistema: 100x100 (viewBox).
+  Masshtab vyvoda: 166.6667 px (~500/3) - srednyaya zona (60 edinic,
+  y = 20..80) na ekrane rovno 100 px.
+
+  FILTRUYUSHCHIY ELEMENT:
+    V centre - korpus filtra s vnutrennim filtruyushchim elementom.
+    Potok vozdukha: sleva napravo (streloki).
+
+  Privyazki (dlya sootvetstvuyushchego .xml):
+    #filter_housing fill       - cvet korpusa filtra
+    #filter_media  stroke      - cvet filtruyushchego elementa
+    #flow_arrows   fill        - cvet strelok potoka
+    #pos_value     Content     - tekst protsentov/zaglushki
+    #pos_value     visibility  - vidimost' teksta
+    #pos_value     fill        - cvet teksta zagolovka
+    #status_text   Content     - tekst nizhnej zony (sostoyanie)
+    #status_text   fill        - cvet teksta nizhnej zony
+    #top_band      fill        - fon zagolovka
+    #mid_band      fill        - fon central'noj chasti
+    #bottom_band   fill        - fon nizhnej zony
+
+  Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
+  ostavalsya chisto ASCII i ne zavisel ot kodirovki.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-filter-pritok-scada">
+  <defs>
+    <clipPath id="fps_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Prototip streloki potoka (sleva napravo) -->
+    <g id="flow_arrow" fill="#94a3b8">
+      <polygon points="0,0 9,-4.5 9,4.5"/>
+      <rect x="9" y="-2" width="14" height="4" rx="1"/>
+    </g>
+  </defs>
+
+  <g id="filter_pritok_scada">
+
+    <!-- Ramka; vneshnij gabarit rovno 100x100 v viewBox -->
+    <rect id="tile_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#fps_tile_clip)">
+
+      <!-- Fon central'noj chasti (perekryvaetsya polosami sverhu/snizu) -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="#1a1d21"/>
+
+      <!-- Fon zagolovka (verhnyaya zona, procent) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Fon nizhnej zony (tekst sostoyaniya) -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Streloki potoka: vkhod (sleva) -->
+      <use href="#flow_arrow" xlink:href="#flow_arrow" transform="translate(6,50) scale(0.75)"/>
+
+      <!-- Korpus filtra (skruglennyy pryamougolnik) -->
+      <rect id="filter_housing"
+        x="20" y="26" width="60" height="48"
+        rx="3" ry="3"
+        fill="#23272e"
+        stroke="#4b5563"
+        stroke-width="1.2"/>
+
+      <!-- Filtruyushchij element - zagibchatye pleaty (zigzag) -->
+      <g id="filter_media" stroke="#d1d5db" stroke-width="1.2" fill="none" opacity="0.9">
+        <polyline points="26,33 33,39 26,45 33,51 26,57 33,63"/>
+        <polyline points="34,33 41,39 34,45 41,51 34,57 41,63"/>
+        <polyline points="42,33 49,39 42,45 49,51 42,57 49,63"/>
+        <polyline points="50,33 57,39 50,45 57,51 50,57 57,63"/>
+        <polyline points="58,33 65,39 58,45 65,51 58,57 65,63"/>
+        <polyline points="66,33 73,39 66,45 73,51 66,57 73,63"/>
+      </g>
+
+      <!-- Streloki potoka: vykhod (sprava) -->
+      <use href="#flow_arrow" xlink:href="#flow_arrow" transform="translate(88,50) scale(0.75) rotate(180)"/>
+
+    </g>
+
+    <!-- Zagolovok: klass filtra / nazvanie -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">&#x424;&#x418;&#x41B;&#x42C;&#x422;&#x420; &#x41F;&#x420;&#x418;&#x422;&#x41E;&#x41A;</text>
+
+    <!-- Nizhnyaya zona: tekst sostoyaniya -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x41D;&#x41E;&#x420;&#x41C;&#x410;</text>
+  </g>
+</svg>

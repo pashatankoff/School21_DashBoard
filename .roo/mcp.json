@@ -1,0 +1,31 @@
+{
+	"mcpServers": {
+		"filesystem": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@modelcontextprotocol/server-filesystem",
+				"c:/4D/Школа21/InterFace/DashBoard"
+			],
+			"alwaysAllow": [
+				"read_file",
+				"write_file",
+				"read_text_file"
+			]
+		},
+		"playwright": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@playwright/mcp@latest"
+			]
+		},
+		"git": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"mcp-git"
+			]
+		}
+	}
+}
