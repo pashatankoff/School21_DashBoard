@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <!-- Змеевик нагревателя (ТЭН) -->
+    <ParameterDef Name="HeatingCoilColor" DisplayName="Цвет змеевика (свечение)" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="heating_coil_glow" Path="stroke" />
+    <ParameterDef Name="HeatingCoilGlowWidth" DisplayName="Толщина свечения змеевика" Type="DOUBLE" ParamType="Attribute" ItemId="heating_coil_glow" Path="stroke-width" />
+    <ParameterDef Name="HeatingCoilGlowIntensity" DisplayName="Интенсивность свечения змеевика (размытие)" Type="DOUBLE" ParamType="Attribute" ItemId="glow-ten" Path="stdDeviation" />
+    <ParameterDef Name="HeatingCoilCoreColor" DisplayName="Цвет сердцевины змеевика" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="heating_coil_core" Path="stroke" />
+    <ParameterDef Name="HeatingCoilCoreWidth" DisplayName="Толщина сердцевины змеевика" Type="DOUBLE" ParamType="Attribute" ItemId="heating_coil_core" Path="stroke-width" />
+    <ParameterDef Name="HeatingCoilInletOutletColor" DisplayName="Цвет входов/выходов змеевика" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="heating_coil_ports" Path="fill" />
+
+    <!-- Верхняя горячая труба (подача) -->
+    <ParameterDef Name="HotPipeColor" DisplayName="Цвет горячей трубы (свечение)" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="hot_pipe_glow" Path="stroke" />
+    <ParameterDef Name="HotPipeGlowWidth" DisplayName="Толщина свечения горячей трубы" Type="DOUBLE" ParamType="Attribute" ItemId="hot_pipe_glow" Path="stroke-width" />
+    <ParameterDef Name="HotPipeCoreColor" DisplayName="Цвет сердцевины горячей трубы" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="hot_pipe_core" Path="stroke" />
+    <ParameterDef Name="HotPipeGlowIntensity" DisplayName="Интенсивность свечения горячей трубы" Type="DOUBLE" ParamType="Attribute" ItemId="glow-orange" Path="stdDeviation" />
+
+    <!-- Нижняя труба (обратка) -->
+    <ParameterDef Name="ReturnPipeColor" DisplayName="Цвет обратной трубы (свечение)" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="return_pipe_glow" Path="stroke" />
+    <ParameterDef Name="ReturnPipeGlowWidth" DisplayName="Толщина свечения обратной трубы" Type="DOUBLE" ParamType="Attribute" ItemId="return_pipe_glow" Path="stroke-width" />
+    <ParameterDef Name="ReturnPipeCoreColor" DisplayName="Цвет сердцевины обратной трубы" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="return_pipe_core" Path="stroke" />
+
+    <!-- Точки разветвления труб -->
+    <ParameterDef Name="PipeJunctionColor" DisplayName="Цвет точек разветвления" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pipe_junctions" Path="fill" />
+    <ParameterDef Name="PipeJunctionGlowIntensity" DisplayName="Интенсивность свечения точек разветвления" Type="DOUBLE" ParamType="Attribute" ItemId="glow-white" Path="stdDeviation" />
+
+    <!-- Стрелки потока -->
+    <ParameterDef Name="FlowArrowColor" DisplayName="Цвет стрелок потока" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="flow_arrows" Path="fill" />
+
+    <!-- SCADA-тайл: Водяной нагреватель -->
+    <ParameterDef Name="HeaderText" DisplayName="Текст заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
+    <ParameterDef Name="HeaderTextVisible" DisplayName="Видимость текста заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+    <ParameterDef Name="HeaderTextColor" DisplayName="Цвет текста заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pos_value" Path="fill" />
+    <ParameterDef Name="HeaderBackgroundColor" DisplayName="Цвет фона заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="top_band" Path="fill" />
+    <ParameterDef Name="MiddleBackgroundColor" DisplayName="Цвет фона центральной части" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="mid_band" Path="fill" />
+    <ParameterDef Name="FrameBorderColor" DisplayName="Цвет рамки тайла" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="frame_border" Path="stroke" />
+
+    <!-- Насос H1 -->
+    <ParameterDef Name="PumpBodyColor" DisplayName="Цвет корпуса насоса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pump_body" Path="fill" />
+    <ParameterDef Name="PumpBodyStrokeColor" DisplayName="Цвет обводки корпуса насоса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pump_body" Path="stroke" />
+    <ParameterDef Name="PumpImpellerColor" DisplayName="Цвет крыльчатки насоса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pump_impeller" Path="fill" />
+    <ParameterDef Name="PumpGlowCenterColor" DisplayName="Цвет центра свечения насоса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pump_glow_center" Path="stop-color" />
+    <ParameterDef Name="PumpGlowMidColor" DisplayName="Цвет середины свечения насоса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pump_glow_mid" Path="stop-color" />
+    <ParameterDef Name="PumpGlowEdgeColor" DisplayName="Цвет края свечения насоса" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pump_glow_edge" Path="stop-color" />
+    <ParameterDef Name="PumpGlowIntensity" DisplayName="Интенсивность свечения насоса" Type="DOUBLE" ParamType="Attribute" ItemId="glow-green" Path="stdDeviation" />
+
+    <!-- Блок Y1 (регулятор) -->
+    <ParameterDef Name="Y1LabelColor" DisplayName="Цвет надписи Y1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="y1_label" Path="fill" />
+    <ParameterDef Name="Y1ValueColor" DisplayName="Цвет значения Y1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="y1_value" Path="fill" />
+    <ParameterDef Name="Y1FrameFillColor" DisplayName="Цвет фона рамки Y1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="y1_frame" Path="fill" />
+    <ParameterDef Name="Y1FrameStrokeColor" DisplayName="Цвет обводки рамки Y1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="y1_frame" Path="stroke" />
+
+    <!-- Блок TE1 (датчик температуры) -->
+    <ParameterDef Name="TE1LabelColor" DisplayName="Цвет надписи TE1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="te1_label" Path="fill" />
+    <ParameterDef Name="TE1ValueColor" DisplayName="Цвет значения TE1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="te1_value" Path="fill" />
+    <ParameterDef Name="TE1FrameFillColor" DisplayName="Цвет фона рамки TE1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="te1_frame" Path="fill" />
+    <ParameterDef Name="TE1FrameStrokeColor" DisplayName="Цвет обводки рамки TE1" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="te1_frame" Path="stroke" />
+
+    <!-- Общий фон схемы -->
+    <ParameterDef Name="BackgroundColor" DisplayName="Цвет фона всей схемы" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="main_background" Path="fill" />
+  </ParameterDefs>
+</SvgDef>

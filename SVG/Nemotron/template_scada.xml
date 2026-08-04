@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="HeaderText" DisplayName="Название элемента (верхняя зона)" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
+    <ParameterDef Name="HeaderTextVisible" DisplayName="Видимость текста заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+    <ParameterDef Name="HeaderTextColor" DisplayName="Цвет текста заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pos_value" Path="fill" />
+    <ParameterDef Name="StatusText" DisplayName="Параметр (нижняя зона)" Type="STRING" ParamType="Attribute" ItemId="status_text" Path="Content" />
+    <ParameterDef Name="StatusTextColor" DisplayName="Цвет текста параметра" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="status_text" Path="fill" />
+    <ParameterDef Name="HeaderBackgroundColor" DisplayName="Цвет фона заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="top_band" Path="fill" />
+    <ParameterDef Name="MiddleBackgroundColor" DisplayName="Цвет фона центральной части" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="mid_band" Path="fill" />
+    <ParameterDef Name="BottomBackgroundColor" DisplayName="Цвет фона нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="bottom_band" Path="fill" />
+    <ParameterDef Name="FrameBorderColor" DisplayName="Цвет рамки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="frame_border" Path="stroke" />
+  </ParameterDefs>
+</SvgDef>

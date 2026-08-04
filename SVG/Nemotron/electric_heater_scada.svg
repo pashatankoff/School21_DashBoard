@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Electric heater - element dlya MasterSCADA (based on filter_pritok style).
+  Koordinatnaya sistema: 100x100 (viewBox).
+  Masshtab vyvoda: 166.6667 px (~500/3) - srednyaya zona (60 edinic,
+  y = 20..80) na ekrane rovno 100 px.
+
+  Osnova: filter_pritok_scada.svg (bez strelok i filtruyushchih elementov).
+  Dobavleny: nagrevatel'nye elementy (TENy) iz electric_heater_scada.svg.
+
+  Privyazki (sm. parnyj fajl electric_heater_scada.xml):
+    #heater_elements fill       - cvet TENov (osnovnoy)
+    #heater_elements opacity    - prozrachnost' (sostoyanie)
+    #heater_glow    stdDeviation - intensivnost' svezheniya
+    #pos_value      Content     - tekst verhney zony
+    #pos_value      visibility  - vidimost' teksta
+    #pos_value      fill        - cvet teksta zagolovka
+    #status_text    Content     - tekst nizhnej zony
+    #status_text    fill        - cvet teksta nizhnej zony
+    #top_band       fill        - fon zagolovka
+    #mid_band       fill        - fon central'noj chasti
+    #bottom_band    fill        - fon nizhnej zony
+    #frame_border   stroke      - cvet ramki
+
+  Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
+  ostavalsya chisto ASCII i ne zavisel ot kodirovki.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-electric-heater-scada">
+  <defs>
+    <clipPath id="ehs_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Svezhenie dlya nagrevatel'nyh elementov (adaptirano pod 100x100) -->
+    <filter id="glow-orange" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur1"/>
+      <feGaussianBlur stdDeviation="3" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Svezhenie dlya zelenogo teksta VKL -->
+    <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gradient fona central'noy chasti -->
+    <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+
+    <!-- TEN (nagrevatel'nyy element) - masshtabiruem pod 100x100 -->
+    <!-- Original'nyy razmer: 160x260, nuzhno 100x100 -> koeff. ~0.385 -->
+    <g id="heater-element">
+      <!-- Beloe osnovanie (kontakty) -->
+      <ellipse cx="12.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+      <ellipse cx="19.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+      <!-- Raskalenaya nit' -->
+      <path d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+            fill="none"
+            stroke="#ff5500"
+            stroke-width="2"
+            stroke-linecap="round"
+            filter="url(#glow-orange)"/>
+      <!-- Vnutrennyaya yarkaya chast' niti -->
+      <path d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+            fill="none"
+            stroke="#ffcc00"
+            stroke-width="0.6"
+            stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <g id="electric_heater_scada">
+
+    <!-- Ramka; vneshnij gabarit rovno 100x100 v viewBox -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#ehs_tile_clip)">
+
+      <!-- Fon central'noj chasti s gradientom -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="url(#inner-bg)"/>
+
+      <!-- Fon zagolovka (verhnyaya zona) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Fon nizhnej zony (tekst sostoyaniya) -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Tri nagrevatel'nye elementa (TENy) - ravnomerno po gorizontali, niz ne zaslaet na nizhnyuyu zonu -->
+      <g id="heater_elements" fill="#ff5500" stroke="#ff5500" stroke-width="2">
+        <use id="ten_1" xlink:href="#heater-element" transform="translate(9,5)"/>
+        <use id="ten_2" xlink:href="#heater-element" transform="translate(34,5)"/>
+        <use id="ten_3" xlink:href="#heater-element" transform="translate(59,5)"/>
+      </g>
+
+      <!-- Ramochka vokrug zony nagreva (vizual'no otdelyaet element) -->
+      <rect x="12" y="20.5" width="76" height="59"
+        fill="none" stroke="#3b4048" stroke-width="0.8" rx="3" ry="3"/>
+    </g>
+
+    <!-- Zagolovok: nazvanie / parametr -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">&#x42D;&#x43B;. &#x43D;&#x430;&#x433;&#x440;&#x435;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x44C;</text>
+
+    <!-- Nizhnyaya zona: tekst sostoyaniya -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x412;&#x41A;&#x41B;</text>
+  </g>
+</svg>

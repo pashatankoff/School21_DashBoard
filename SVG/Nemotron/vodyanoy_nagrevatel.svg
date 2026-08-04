@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 340" width="100%" height="100%">
+  <defs>
+    <!-- Интенсивное свечение для горячих труб и ТЭНа -->
+    <filter id="glow-orange" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur1" />
+      <feGaussianBlur stdDeviation="1.5" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Интенсивное свечение для горячего ТЭНа (змеевика) -->
+    <filter id="glow-ten" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur1" />
+      <feGaussianBlur stdDeviation="2.5" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Свечение для зеленого индикатора насоса -->
+    <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Радиальный градиент фона крыльчатки насоса (ярче в центре, прозрачнее по краям) -->
+    <radialGradient id="pump-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2bd458" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#1f9e44" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#113f1d" stop-opacity="0.15"/>
+    </radialGradient>
+
+    <!-- Свечение для белых соединительных узлов -->
+    <filter id="glow-white" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Шаблон для скругленной рамки блоков (Y1, TE1) -->
+    <g id="block-frame">
+      <rect width="66" height="34" rx="10" fill="#2d3035" stroke="#70767f" stroke-width="2" />
+    </g>
+
+    <!-- ===== SCADA-тайл: Водяной нагреватель ===== -->
+    <clipPath id="wh_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Gradient фона центральной части тайла -->
+    <linearGradient id="wh-inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+
+    <!-- Фильтр свечения для змеевика нагревателя -->
+    <filter id="glow-orange-wh" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+
+    <!-- Стрелка направления потока (вверх) -->
+    <polygon id="arrow-up" points="0,0 -4,6 4,6" fill="#ff5100" />
+    <!-- Стрелка направления потока (вниз) -->
+    <polygon id="arrow-down" points="0,6 -4,0 4,0" fill="#ff5100" />
+  </defs>
+
+  <!-- Темный фон всей схемы -->
+  <rect id="main_background" width="320" height="340" fill="#1b1c1f" />
+
+  <!-- ================= ЛИНИИ СВЯЗИ И СВЕЧЕНИЕ ================= -->
+  <!-- Оранжевая линия (верхний контур от входа до нагревателя) - более красная, слабее свечение -->
+  <path id="hot_pipe_glow" d="M 0 220 L 82 220 M 118 220 L 225 220 Q 235 220 235 210 L 235 150"
+        fill="none" stroke="#cc0000" stroke-width="2" filter="url(#glow-orange)" />
+  <path id="hot_pipe_core" d="M 0 220 L 82 220 M 118 220 L 225 220 Q 235 220 235 210 L 235 150"
+        fill="none" stroke="#ff3300" stroke-width="1" />
+
+  <!-- Нижняя оранжевая линия (обратный контур от нагревателя через насос наружу) - слабее свечение -->
+  <path id="return_pipe_glow" d="M 275 150 L 275 280 Q 275 290 265 290 L 0 290 M 115 290 L 115 220"
+        fill="none" stroke="#ff5100" stroke-width="2" filter="url(#glow-orange)" />
+  <path id="return_pipe_core" d="M 275 150 L 275 280 Q 275 290 265 290 L 0 290 M 115 290 L 115 220"
+        fill="none" stroke="#ffcc00" stroke-width="1" />
+
+  <!-- Белые светящиеся точки разветвления труб -->
+  <circle id="pipe_junctions" cx="115" cy="220" r="3" fill="#ffffff" filter="url(#glow-white)" />
+  <circle cx="115" cy="290" r="3" fill="#ffffff" filter="url(#glow-white)" />
+
+  <!-- Стрелки направления потока жидкости -->
+  <use id="flow_arrows" href="#arrow-up" x="235" y="185" />
+  <use href="#arrow-down" x="275" y="185" />
+
+
+  
+  <!-- ================= БЛОК: ВОДЯНОЙ НАГРЕВАТЕЛЬ (SCADA-тайл) ================= -->
+  <g id="water_heater_scada" transform="translate(205, 50)">
+    <!-- Рамка тайла -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#wh_tile_clip)">
+
+      <!-- Фон центральной части с градиентом -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="url(#wh-inner-bg)"/>
+
+      <!-- Фон заголовка (верхняя зона - название элемента) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+    </g>
+
+    <!-- Змеевик водяного нагревателя (серпантин с плавными U-образными поворотами) -->
+    <g id="heating_coil">
+      <!-- Свечение змеевика (в стиле труб теплоносителя) -->
+      <path id="heating_coil_glow" d="M 30,100 L 30,30 C 30,22 43,22 43,30 L 43,60 C 43,68 57,68 57,60 L 57,30 C 57,22 70,22 70,30 L 70,100"
+            fill="none" stroke="#ff5100" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-ten)"/>
+
+      <!-- Основной змеевик (яркая сердцевина, в стиле труб теплоносителя) -->
+      <path id="heating_coil_core" d="M 30,100 L 30,30 C 30,22 43,22 43,30 L 43,60 C 43,68 57,68 57,60 L 57,30 C 57,22 70,22 70,30 L 70,100"
+            fill="none" stroke="#ffcc00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Вход и выход снизу -->
+      <circle id="heating_coil_ports" cx="30" cy="100" r="2" fill="#ffcc00"/>
+      <circle cx="70" cy="100" r="2" fill="#ffcc00"/>
+    </g>
+
+    <!-- Заголовок: название элемента -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">Водяной нагреватель</text>
+  </g>
+
+  <!-- ================= БЛОК: РЕГУЛЯТОР Y1 (по центру Т-образного перекрестка) ================= -->
+  <g transform="translate(82, 203)">
+    <use href="#block-frame" />
+    <text x="33" y="-5" fill="#70767f" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Y1</text>
+    <text x="33" y="22" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">100%</text>
+  </g>
+
+
+  <!-- ================= БЛОК: НАСОС H1 (центробежный) ================= -->
+  <g transform="translate(131.5, 255)">
+    <!-- Метка насоса -->
+    <text x="25" y="7" fill="#70767f" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">H1</text>
+    <!-- Внешний круг корпуса -->
+    <circle id="pump_body" cx="25" cy="35" r="23" fill="#2d3035" stroke="#70767f" stroke-width="2" />
+    
+    <!-- Зеленый градиентный фон за крыльчаткой (ярче в центре, прозрачнее по краям) -->
+    <circle id="pump_glow" cx="25" cy="35" r="17" fill="url(#pump-glow)">
+      <stop id="pump_glow_center" offset="0%" stop-color="#2bd458" stop-opacity="0.95"/>
+      <stop id="pump_glow_mid" offset="60%" stop-color="#1f9e44" stop-opacity="0.55"/>
+      <stop id="pump_glow_edge" offset="100%" stop-color="#113f1d" stop-opacity="0.15"/>
+    </circle>
+    
+    <!-- Трехлопастная крыльчатка центробежного насоса (одинаковые лопасти) -->
+    <g id="pump_impeller" transform="translate(25, 35)">
+      <path transform="rotate(0)"   d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
+      <path transform="rotate(120)" d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
+      <path transform="rotate(240)" d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
+      <!-- Центр крыльчатки -->
+      <circle cx="0" cy="0" r="3" fill="#151618" />
+    </g>
+  </g>
+
+
+  <!-- ================= БЛОК: ДАТЧИК ТЕМПЕРАТУРЫ TE1 ================= -->
+  <g transform="translate(198, 273)">
+    <use href="#block-frame" />
+    <text x="33" y="-5" fill="#70767f" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">TE1</text>
+    <text x="33" y="22" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">68.9°C</text>
+  </g>
+
+</svg>

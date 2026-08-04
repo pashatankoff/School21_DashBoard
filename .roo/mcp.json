@@ -5,7 +5,7 @@
 			"args": [
 				"-y",
 				"@modelcontextprotocol/server-filesystem",
-				"c:/4D/Школа21/InterFace/DashBoard"
+				"."
 			],
 			"alwaysAllow": [
 				"read_file",
