@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 340" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 340" width="531.2" height="564.4">
   <defs>
     <!-- Интенсивное свечение для горячих труб и ТЭНа -->
     <filter id="glow-orange" x="-50%" y="-50%" width="200%" height="200%">
@@ -31,11 +31,21 @@
       </feMerge>
     </filter>
 
-    <!-- Радиальный градиент фона крыльчатки насоса (ярче в центре, прозрачнее по краям) -->
-    <radialGradient id="pump-glow" cx="50%" cy="50%" r="50%">
+    <!-- Радиальные градиенты фона крыльчатки насоса по состояниям -->
+    <radialGradient id="pump-glow-green" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#2bd458" stop-opacity="0.95"/>
       <stop offset="60%" stop-color="#1f9e44" stop-opacity="0.55"/>
       <stop offset="100%" stop-color="#113f1d" stop-opacity="0.15"/>
+    </radialGradient>
+    <radialGradient id="pump-glow-gray" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d1d5db" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#9ca3af" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#4b5563" stop-opacity="0.15"/>
+    </radialGradient>
+    <radialGradient id="pump-glow-red" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#dc2626" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#7f1d1d" stop-opacity="0.15"/>
     </radialGradient>
 
     <!-- Свечение для белых соединительных узлов -->
@@ -75,8 +85,71 @@
     <polygon id="arrow-down" points="0,6 -4,0 4,0" fill="#ff5100" />
   </defs>
 
-  <!-- Темный фон всей схемы -->
-  <rect id="main_background" width="320" height="340" fill="#1b1c1f" />
+  <style type="text/css"><![CDATA[
+    /* ===== Насос H1: состояния ===== */
+    /* Вкл — зелёный, вращение 0.5 об/сек (2с на оборот) */
+    #pump.On .pump_glow { fill: url(#pump-glow-green); }
+    #pump.On .imp_blade { fill: #2bd458; }
+    #pump.On .imp_rotor {
+      animation: pump_spin 2s linear infinite;
+      transform-origin: 0 0;
+    }
+    /* Выкл — серый, без вращения */
+    #pump.Off .pump_glow { fill: url(#pump-glow-gray); }
+    #pump.Off .imp_blade { fill: #9ca3af; }
+    /* Авария — красный, без вращения, пульсация без полного погасания */
+    #pump.Alarm .pump_glow { fill: url(#pump-glow-red); }
+    #pump.Alarm .imp_blade { fill: #ef4444; }
+    #pump.Alarm .pump_glow,
+    #pump.Alarm .imp_blade {
+      animation: alarm_pulse 1s ease-in-out infinite;
+    }
+
+    /* ===== Общее состояние: рамка блока с ТЭН ===== */
+    #water_heater_scada.Alarm #frame_border {
+      stroke: #ef4444;
+      animation: alarm_pulse 1s ease-in-out infinite;
+    }
+
+    /* ===== Нагрев: состояния On/Off ===== */
+    /* On — нагревательный элемент в цвете (как сейчас) и плавно, несильно мерцает */
+    #heating_state.On #heating_coil_glow {
+      stroke: #ff5100;
+      animation: heat_flicker 1.8s ease-in-out infinite;
+    }
+    #heating_state.On #heating_coil_core {
+      stroke: #ffcc00;
+      animation: heat_flicker 1.8s ease-in-out infinite;
+    }
+    #heating_state.On #heating_coil_ports { fill: #ffcc00; }
+    /* Off — нагревательный элемент серого оттенка, без мерцания */
+    #heating_state.Off #heating_coil_glow {
+      stroke: #6b7280;
+      animation: none;
+    }
+    #heating_state.Off #heating_coil_core {
+      stroke: #9ca3af;
+      animation: none;
+    }
+    #heating_state.Off #heating_coil_ports { fill: #9ca3af; }
+
+    @keyframes pump_spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes alarm_pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.45; }
+    }
+    /* Плавное, несильное мерцание нагревательного элемента */
+    @keyframes heat_flicker {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.72; }
+    }
+  ]]></style>
+
+  <!-- Прозрачный фон всей схемы -->
+  <rect id="main_background" width="320" height="340" fill="none" />
 
   <!-- ================= ЛИНИИ СВЯЗИ И СВЕЧЕНИЕ ================= -->
   <!-- Оранжевая линия (верхний контур от входа до нагревателя) - более красная, слабее свечение -->
@@ -102,7 +175,7 @@
 
   
   <!-- ================= БЛОК: ВОДЯНОЙ НАГРЕВАТЕЛЬ (SCADA-тайл) ================= -->
-  <g id="water_heater_scada" transform="translate(205, 50)">
+  <g id="water_heater_scada" class="Normal" transform="translate(205, 50)">
     <!-- Рамка тайла -->
     <rect id="frame_border"
       x="0.75" y="0.75" width="98.5" height="98.5"
@@ -123,18 +196,21 @@
     </g>
 
     <!-- Змеевик водяного нагревателя (серпантин с плавными U-образными поворотами) -->
-    <g id="heating_coil">
-      <!-- Свечение змеевика (в стиле труб теплоносителя) -->
-      <path id="heating_coil_glow" d="M 30,100 L 30,30 C 30,22 43,22 43,30 L 43,60 C 43,68 57,68 57,60 L 57,30 C 57,22 70,22 70,30 L 70,100"
-            fill="none" stroke="#ff5100" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-ten)"/>
+    <!-- Состояние нагрева: class="On" — цветной + мерцает, class="Off" — серый без мерцания -->
+    <g id="heating_state" class="On">
+      <g id="heating_coil">
+        <!-- Свечение змеевика (в стиле труб теплоносителя) -->
+        <path id="heating_coil_glow" d="M 30,100 L 30,30 C 30,22 43,22 43,30 L 43,60 C 43,68 57,68 57,60 L 57,30 C 57,22 70,22 70,30 L 70,100"
+              fill="none" stroke="#ff5100" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow-ten)"/>
 
-      <!-- Основной змеевик (яркая сердцевина, в стиле труб теплоносителя) -->
-      <path id="heating_coil_core" d="M 30,100 L 30,30 C 30,22 43,22 43,30 L 43,60 C 43,68 57,68 57,60 L 57,30 C 57,22 70,22 70,30 L 70,100"
-            fill="none" stroke="#ffcc00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Основной змеевик (яркая сердцевина, в стиле труб теплоносителя) -->
+        <path id="heating_coil_core" d="M 30,100 L 30,30 C 30,22 43,22 43,30 L 43,60 C 43,68 57,68 57,60 L 57,30 C 57,22 70,22 70,30 L 70,100"
+              fill="none" stroke="#ffcc00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 
-      <!-- Вход и выход снизу -->
-      <circle id="heating_coil_ports" cx="30" cy="100" r="2" fill="#ffcc00"/>
-      <circle cx="70" cy="100" r="2" fill="#ffcc00"/>
+        <!-- Вход и выход снизу -->
+        <circle id="heating_coil_ports" cx="30" cy="100" r="2" fill="#ffcc00"/>
+        <circle cx="70" cy="100" r="2" fill="#ffcc00"/>
+      </g>
     </g>
 
     <!-- Заголовок: название элемента -->
@@ -152,31 +228,29 @@
   <g transform="translate(82, 203)">
     <use href="#block-frame" />
     <text x="33" y="-5" fill="#70767f" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Y1</text>
-    <text x="33" y="22" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">100%</text>
+    <text id="y1_value" x="33" y="22" fill="#ffffff" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">100%</text>
   </g>
 
 
   <!-- ================= БЛОК: НАСОС H1 (центробежный) ================= -->
-  <g transform="translate(131.5, 255)">
+  <g id="pump" class="On" transform="translate(131.5, 255)">
     <!-- Метка насоса -->
     <text x="25" y="7" fill="#70767f" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">H1</text>
     <!-- Внешний круг корпуса -->
     <circle id="pump_body" cx="25" cy="35" r="23" fill="#2d3035" stroke="#70767f" stroke-width="2" />
     
-    <!-- Зеленый градиентный фон за крыльчаткой (ярче в центре, прозрачнее по краям) -->
-    <circle id="pump_glow" cx="25" cy="35" r="17" fill="url(#pump-glow)">
-      <stop id="pump_glow_center" offset="0%" stop-color="#2bd458" stop-opacity="0.95"/>
-      <stop id="pump_glow_mid" offset="60%" stop-color="#1f9e44" stop-opacity="0.55"/>
-      <stop id="pump_glow_edge" offset="100%" stop-color="#113f1d" stop-opacity="0.15"/>
-    </circle>
+    <!-- Подсветка за крыльчаткой (цвет зависит от состояния) -->
+    <circle id="pump_glow" class="pump_glow" cx="25" cy="35" r="17" fill="url(#pump-glow-green)" />
     
     <!-- Трехлопастная крыльчатка центробежного насоса (одинаковые лопасти) -->
     <g id="pump_impeller" transform="translate(25, 35)">
-      <path transform="rotate(0)"   d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
-      <path transform="rotate(120)" d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
-      <path transform="rotate(240)" d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
-      <!-- Центр крыльчатки -->
-      <circle cx="0" cy="0" r="3" fill="#151618" />
+      <g class="imp_rotor">
+        <path class="imp_blade" transform="rotate(0)"   d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
+        <path class="imp_blade" transform="rotate(120)" d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
+        <path class="imp_blade" transform="rotate(240)" d="M 0 0 C 3 -7, 9 -13, 15 -11 C 12 -4, 6 -1, 0 0" fill="#2bd458" />
+        <!-- Центр крыльчатки -->
+        <circle cx="0" cy="0" r="3" fill="#151618" />
+      </g>
     </g>
   </g>
 
@@ -185,7 +259,7 @@
   <g transform="translate(198, 273)">
     <use href="#block-frame" />
     <text x="33" y="-5" fill="#70767f" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">TE1</text>
-    <text x="33" y="22" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">68.9°C</text>
+    <text id="te1_value" x="33" y="22" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">68.9°C</text>
   </g>
 
 </svg>

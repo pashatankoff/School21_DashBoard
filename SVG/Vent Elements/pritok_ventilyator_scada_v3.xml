@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="HeaderText" DisplayName="Текст заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
+    <ParameterDef Name="HeaderTextVisible" DisplayName="Видимость текста заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+    <ParameterDef Name="HeaderTextColor" DisplayName="Цвет текста заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pos_value" Path="fill" />
+    <ParameterDef Name="StatusText" DisplayName="Текст нижней зоны" Type="STRING" ParamType="Attribute" ItemId="status_text" Path="Content" />
+    <ParameterDef Name="StatusTextColor" DisplayName="Цвет текста нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="status_text" Path="fill" />
+    <ParameterDef Name="HeaderBackgroundColor" DisplayName="Цвет фона заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="top_band" Path="fill" />
+    <ParameterDef Name="MiddleBackgroundColor" DisplayName="Цвет фона центральной части" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="mid_band" Path="fill" />
+    <ParameterDef Name="BottomBackgroundColor" DisplayName="Цвет фона нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="bottom_band" Path="fill" />
+    <ParameterDef Name="FrameBorderColor" DisplayName="Цвет рамки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="frame_border" Path="stroke" />
+    <ParameterDef Name="CommonAlarm" DisplayName="Общая авария" Type="STRING" ParamType="Attribute" ItemId="pritok_ventilyator_scada_v3" Path="class">
+      <Value DisplayName="Норма">Normal</Value>
+      <Value DisplayName="Авария">Alarm</Value>
+    </ParameterDef>
+    <ParameterDef Name="Rotation" DisplayName="Вращение" Type="STRING" ParamType="Attribute" ItemId="fan_state" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="RotationSpeed" DisplayName="Скорость вращения" Type="STRING" ParamType="Attribute" ItemId="fan-blades" Path="class">
+      <Value DisplayName="100 (1 об/с)">spd-100</Value>
+      <Value DisplayName="90">spd-90</Value>
+      <Value DisplayName="80">spd-80</Value>
+      <Value DisplayName="70">spd-70</Value>
+      <Value DisplayName="60">spd-60</Value>
+      <Value DisplayName="50">spd-50</Value>
+      <Value DisplayName="40">spd-40</Value>
+      <Value DisplayName="30">spd-30</Value>
+      <Value DisplayName="20">spd-20</Value>
+      <Value DisplayName="10 (1 об/6с)">spd-10</Value>
+    </ParameterDef>
+  </ParameterDefs>
+</SvgDef>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Приточный вентилятор - элемент для MasterSCADA.
+  Основа: template_scada.svg
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-pritok-ventilyator-scada">
+  <defs>
+    <clipPath id="tpl_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Gradient фона центральной части -->
+    <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+    
+    <!-- Зеленое свечение -->
+    <radialGradient id="glow-green" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.95"/>
+      <stop offset="50%" stop-color="#22c55e" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+    
+    <!-- Лопасть пропеллера (форма как у кулера: изогнутая, широкая у края) -->
+    <path id="blade" d="M2.5,-3 C5,-9 8,-15 13,-18.5 C16,-20 19.5,-18.5 19.5,-15.5 C19.5,-12.5 16,-9 11.5,-6 C8,-3.5 4.5,-2.5 2.5,-3 Z"
+      fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+  </defs>
+
+  <g id="pritok_ventilyator_scada">
+    <!-- Рамка -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#tpl_tile_clip)">
+      <!-- Фон центральной части с градиентом -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="url(#inner-bg)"/>
+
+      <!-- Фон заголовка -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Фон нижней зоны -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Центральная зона: пропеллер со свечением -->
+      <circle cx="50" cy="50" r="28" fill="url(#glow-green)"/>
+      
+      <g transform="translate(50,50)">
+        <g id="propeller">
+          <use xlink:href="#blade" transform="rotate(0)"/>
+          <use xlink:href="#blade" transform="rotate(60)"/>
+          <use xlink:href="#blade" transform="rotate(120)"/>
+          <use xlink:href="#blade" transform="rotate(180)"/>
+          <use xlink:href="#blade" transform="rotate(240)"/>
+          <use xlink:href="#blade" transform="rotate(300)"/>
+          <!-- Центральная ступица (мотор кулера) -->
+          <circle cx="0" cy="0" r="6.5" fill="#0f172a" stroke="#64748b" stroke-width="0.8"/>
+          <circle cx="0" cy="0" r="2.4" fill="#475569"/>
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0" to="360"
+            dur="2.25s"
+            repeatCount="indefinite"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Заголовок: название элемента -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">&#x41F;&#x440;&#x438;&#x442;&#x43E;&#x447;&#x43D;&#x44B;&#x439; &#x432;&#x435;&#x43D;&#x442;&#x438;&#x43B;&#x44F;&#x442;&#x43E;&#x440;</text>
+
+    <!-- Нижняя зона: параметр -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#e5e7eb">&#x412;&#x41A;&#x41B;</text>
+  </g>
+</svg>

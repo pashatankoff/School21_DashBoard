@@ -52,7 +52,20 @@
     </g>
   </defs>
 
-  <g id="filter_pritok_scada">
+  <style type="text/css"><![CDATA[
+    /* ===== Общая авария: Normal / Alarm ===== */
+    #filter_pritok_scada.Alarm #frame_border {
+      stroke: #ef4444;
+      animation: alarm_blink 1s linear infinite;
+    }
+
+    @keyframes alarm_blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.15; }
+    }
+  ]]></style>
+
+  <g id="filter_pritok_scada" class="Normal">
 
     <!-- Ramka; vneshnij gabarit rovno 100x100 v viewBox -->
     <rect id="frame_border"

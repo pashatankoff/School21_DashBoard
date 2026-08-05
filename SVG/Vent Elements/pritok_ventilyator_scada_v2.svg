@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Приточный вентилятор (вариант 2) - элемент для MasterSCADA.
+  Основа: template_scada.svg
+  Пропеллер: кулер CPU (7 лопастей) из предоставленного кода.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-pritok-ventilyator-scada-v2">
+  <defs>
+    <clipPath id="tpl_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Gradient фона центральной части -->
+    <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+
+    <!-- Мягкое неоновое свечение для индикации работы (зеленое) -->
+    <filter id="scada-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Градиент для лопастей (создает металлический/пластиковый объем) -->
+    <linearGradient id="blade-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a5058" />
+      <stop offset="50%" stop-color="#282b30" />
+      <stop offset="100%" stop-color="#111215" />
+    </linearGradient>
+
+    <!-- Градиент для круглой рамки корпуса -->
+    <radialGradient id="frame-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="70%" stop-color="#1a1c1f" />
+      <stop offset="95%" stop-color="#2d3137" />
+      <stop offset="100%" stop-color="#40464f" />
+    </radialGradient>
+
+    <!-- Шаблон одной лопасти вентилятора -->
+    <g id="blade">
+      <!-- Тень под лопастью для визуального отделения от корпуса -->
+      <path d="M 100 100 C 85 70, 90 40, 112 25 C 125 45, 115 75, 100 100" fill="#0b0c0d" opacity="0.6" transform="rotate(-4, 100, 100)" />
+      <!-- Сама объемная лопасть -->
+      <path d="M 100 100 C 85 70, 90 40, 112 25 C 125 45, 115 75, 100 100" fill="url(#blade-grad)" stroke="#151619" stroke-width="0.5" />
+      <!-- Блик на грани лопасти -->
+      <path d="M 112 25 C 105 35, 100 55, 100 100" fill="none" stroke="#707884" stroke-width="0.7" opacity="0.4" />
+    </g>
+  </defs>
+
+  <g id="pritok_ventilyator_scada_v2">
+    <!-- Рамка -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#tpl_tile_clip)">
+      <!-- Фон центральной части с градиентом -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="url(#inner-bg)"/>
+
+      <!-- Фон заголовка -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Фон нижней зоны -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Центральная зона: кулер CPU (масштабирован под 100x100, вписан в y=20..80) -->
+      <g transform="translate(50,50) scale(0.3) translate(-100,-100)">
+        <!-- Внешний квадратный каркас кулера с крепежными ушками -->
+        <rect x="15" y="15" width="170" height="170" rx="14" fill="#151618" stroke="#383d44" stroke-width="2" />
+
+        <!-- Четыре монтажных отверстия по углам -->
+        <circle cx="28" cy="28" r="5" fill="#2d3035" stroke="#4f5661" stroke-width="1.5" />
+        <circle cx="172" cy="28" r="5" fill="#2d3035" stroke="#4f5661" stroke-width="1.5" />
+        <circle cx="28" cy="172" r="5" fill="#2d3035" stroke="#4f5661" stroke-width="1.5" />
+        <circle cx="172" cy="172" r="5" fill="#2d3035" stroke="#4f5661" stroke-width="1.5" />
+
+        <!-- Круглый вырез корпуса (шахта вентилятора) -->
+        <circle cx="100" cy="100" r="76" fill="url(#frame-grad)" stroke="#4a5058" stroke-width="1.5" />
+        <circle cx="100" cy="100" r="79" fill="none" stroke="#111215" stroke-width="2" />
+
+        <!-- Светящийся зеленый индикатор работы по внутреннему краю шахты -->
+        <circle cx="100" cy="100" r="74" fill="none" stroke="#2bd458" stroke-width="2" filter="url(#scada-glow)" opacity="0.85" />
+
+        <!-- Крыльчатка (7 лопастей) с вращением -->
+        <g id="rotor-blades">
+          <use xlink:href="#blade" transform="rotate(0, 100, 100)" />
+          <use xlink:href="#blade" transform="rotate(51.43, 100, 100)" />
+          <use xlink:href="#blade" transform="rotate(102.86, 100, 100)" />
+          <use xlink:href="#blade" transform="rotate(154.29, 100, 100)" />
+          <use xlink:href="#blade" transform="rotate(205.71, 100, 100)" />
+          <use xlink:href="#blade" transform="rotate(257.14, 100, 100)" />
+          <use xlink:href="#blade" transform="rotate(308.57, 100, 100)" />
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 100 100" to="360 100 100"
+            dur="2.25s"
+            repeatCount="indefinite"/>
+        </g>
+
+        <!-- Центральная втулка (ротор) -->
+        <circle cx="100" cy="100" r="30" fill="#18191c" stroke="#0c0d0e" stroke-width="2" />
+        <circle cx="100" cy="100" r="24" fill="none" stroke="#3a3f47" stroke-width="1.5" />
+        <circle cx="100" cy="100" r="18" fill="url(#center-cap)" />
+        <circle cx="100" cy="100" r="6" fill="#111214" />
+      </g>
+    </g>
+
+    <!-- Заголовок: название элемента -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">&#x41F;&#x440;&#x438;&#x442;&#x43E;&#x447;&#x43D;&#x44B;&#x439; &#x432;&#x435;&#x43D;&#x442;&#x438;&#x43B;&#x44F;&#x442;&#x43E;&#x440;</text>
+
+    <!-- Нижняя зона: параметр -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#e5e7eb">&#x412;&#x41A;&#x41B;</text>
+  </g>
+</svg>

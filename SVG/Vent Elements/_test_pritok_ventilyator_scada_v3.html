@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Test pritok_ventilyator_scada_v3</title>
+<style>
+  body { background:#0f1115; color:#e5e7eb; font-family:Segoe UI,Arial,sans-serif; padding:20px; }
+  .row { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+  .card { background:#1a1d23; border:1px solid #2a2f38; border-radius:10px; padding:14px; }
+  .card h3 { margin:0 0 8px; font-size:14px; }
+  svg { width:166px; height:166px; background:#0b0d10; border-radius:8px; }
+  button { margin:3px; padding:6px 12px; border-radius:6px; border:1px solid #3b4048; background:#23272e; color:#e5e7eb; cursor:pointer; }
+  button.active { background:#38bdf8; color:#0b0d10; border-color:#38bdf8; }
+</style>
+</head>
+<body>
+<h2>Проверка приточного вентилятора v3 (актуальный файл)</h2>
+<div class="row">
+  <div class="card">
+    <h3>Общая авария</h3>
+    <button data-alarm="Normal" class="active">Normal</button>
+    <button data-alarm="Alarm">Alarm</button>
+  </div>
+  <div class="card">
+    <h3>Вращение</h3>
+    <button data-rot="On" class="active">On (вращается)</button>
+    <button data-rot="Off">Off (стоит)</button>
+  </div>
+  <div class="card">
+    <h3>Скорость (--speed, 10-100)</h3>
+    <input type="range" id="speedSlider" min="10" max="100" value="100" style="width:180px; vertical-align:middle;">
+    <span id="speedLabel" style="margin-left:8px;">100 (1 об/с)</span>
+  </div>
+</div>
+<div id="stage" style="margin-top:20px;"></div>
+
+<script>
+  const svgText = `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Приточный вентилятор (вариант 3) - элемент для MasterSCADA.
+  Основа: template_scada.svg
+  Пропеллер: 5 лопастей (полупрозрачный пластик) + четкие затухающие дуги ветра.
+
+  ВАЖНО: файл адаптирован под импортёр MasterSCADA 4D.
+  Убраны неподдерживаемые CSS-возможности (var(), calc(), transform-box,
+  transform-origin: center), которые вызывали ошибку импорта
+  "Object reference not set to an instance of an object".
+  Вращение реализовано через CSS-анимацию с фиксированной длительностью
+  и transform-origin: 0 0 (как в рабочем файле vodyanoy_nagrevatel.svg).
+
+  Привязки (см. парный файл pritok_ventilyator_scada_v3.xml):
+    #pos_value      Content     - текст верхней зоны (заголовок)
+    #pos_value      visibility  - видимость текста заголовка
+    #pos_value      fill        - цвет текста заголовка
+    #status_text    Content     - текст нижней зоны
+    #status_text    fill        - цвет текста нижней зоны
+    #top_band       fill        - фон заголовка
+    #mid_band       fill        - фон центральной части
+    #bottom_band    fill        - фон нижней зоны
+    #frame_border   stroke      - цвет рамки
+    #pritok_ventilyator_scada_v3 class - общая авария (Normal/Alarm)
+    #fan_state      class       - вращение (On/Off)
+
+  Состояния:
+    Normal + On  - рамка серая, свечение зелёное, вентилятор вращается.
+    Normal + Off - рамка серая, свечение серое, вентилятор не вращается.
+    Alarm        - рамка красная и мерцает (1 раз/сек), свечение красное и мерцает,
+                   вентилятор не вращается (независимо от On/Off).
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-pritok-ventilyator-scada-v3">
+  <defs>
+    <clipPath id="tpl_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Gradient фона центральной части -->
+    <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+
+    <!-- Зеленое свечение за пропеллером (работа) -->
+    <radialGradient id="glow-green" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#22c55e" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Серое свечение за пропеллером (выключено) - холодный серый, не сливается с лопастями -->
+    <radialGradient id="glow-gray" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#64748b" stop-opacity="0.55"/>
+      <stop offset="50%" stop-color="#64748b" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#64748b" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Красное свечение за пропеллером (авария) -->
+    <radialGradient id="glow-red" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#ef4444" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Плавный градиент для объема лопастей (полупрозрачный серый пластик) -->
+    <linearGradient id="blade-gradient" x1="0" y1="1" x2="0.8" y2="0">
+      <stop offset="0%" stop-color="#73797e" stop-opacity="0.85" />
+      <stop offset="60%" stop-color="#9aa1a6" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#b0b7bd" stop-opacity="0.65" />
+    </linearGradient>
+
+    <!-- Мягкая тень по краю лопасти для легкого контраста -->
+    <linearGradient id="blade-edge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#555a5e" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.1" />
+    </linearGradient>
+
+    <!-- Градиент для центральной втулки -->
+    <radialGradient id="center-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8a9196" />
+      <stop offset="75%" stop-color="#505559" />
+      <stop offset="100%" stop-color="#3c4043" />
+    </radialGradient>
+
+    <!-- Градиент затухания ветра строго по дуге окружности -->
+    <linearGradient id="arc-wind-fade" x1="1" y1="0.4" x2="0" y2="0.9">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5" />
+      <stop offset="30%" stop-color="#38bdf8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Шаблон одной изогнутой лопасти (центрирован в начале координат) -->
+    <g id="blade">
+      <!-- Основное тело лопасти с характерным саблевидным изгибом -->
+      <path d="M 0 0 
+               C -25 -60, -35 -130, 15 -170 
+               C 45 -190, 75 -175, 60 -135 
+               C 50 -100, 20 -50, 0 0 Z" 
+            fill="url(#blade-gradient)" 
+            stroke="#5c6165" 
+            stroke-width="1.2" 
+            stroke-linejoin="round" />
+      <!-- Легкий внутренний блик вдоль изгиба -->
+      <path d="M 0 -10 C -15 -60, -25 -120, 20 -160"
+            fill="none"
+            stroke="url(#blade-edge)"
+            stroke-width="3"
+            stroke-linecap="round" />
+    </g>
+
+    <!-- Шаблон затухающих дуг ветра (отдельно от лопасти, чтобы их можно было
+         скрывать через CSS при остановке вращения) -->
+    <g id="wind-arcs">
+      <!-- Две дуговые полоски ветра, идущие от задней кромки по ходу вращения -->
+      <!-- Внешняя длинная дуга (ближе к кончику лопасти) -->
+      <path class="wind-arc" d="M 7 -157 A 161 161 0 0 0 -65 -97"
+            fill="none"
+            stroke="url(#arc-wind-fade)"
+            stroke-width="2.5"
+            stroke-linecap="round" />
+      
+      <!-- Внутренняя короткая дуга (ближе к центру) -->
+      <path class="wind-arc" d="M -6 -108 A 110 110 0 0 0 -52 -65"
+            fill="none"
+            stroke="url(#arc-wind-fade)"
+            stroke-width="1.8"
+            stroke-linecap="round" />
+    </g>
+  </defs>
+
+  <style type="text/css"><![CDATA[
+    /* Точка вращения лопастей - центр пропеллера.
+       Лопасти центрированы в начале координат, поэтому transform-origin: 0 0
+       вращает вокруг центра (как в рабочем файле vodyanoy_nagrevatel.svg). */
+    #fan-blades {
+      transform-origin: 0 0;
+    }
+
+    /* --- Вращение: On / Off ---
+       Скорость задается классом spd-10..spd-100 на #fan-blades
+       (дискретные уровни, т.к. MasterSCADA не поддерживает var()/calc()):
+         spd-100 -> 1s = 1 об/сек   (максимальная скорость)
+         spd-10  -> 6s = 1 об/6 сек (минимальная скорость) */
+    #fan_state.On #fan-blades.spd-100 { animation: spin 1s linear infinite; }
+    #fan_state.On #fan-blades.spd-90  { animation: spin 1.5s linear infinite; }
+    #fan_state.On #fan-blades.spd-80  { animation: spin 2s linear infinite; }
+    #fan_state.On #fan-blades.spd-70  { animation: spin 2.5s linear infinite; }
+    #fan_state.On #fan-blades.spd-60  { animation: spin 3s linear infinite; }
+    #fan_state.On #fan-blades.spd-50  { animation: spin 3.5s linear infinite; }
+    #fan_state.On #fan-blades.spd-40  { animation: spin 4s linear infinite; }
+    #fan_state.On #fan-blades.spd-30  { animation: spin 4.5s linear infinite; }
+    #fan_state.On #fan-blades.spd-20  { animation: spin 5s linear infinite; }
+    #fan_state.On #fan-blades.spd-10  { animation: spin 6s linear infinite; }
+
+    /* --- Следы ветра видны только при вращении (On) --- */
+    #fan_state.Off .wind-arcs { display: none; }
+
+    /* --- Цвет свечения по состоянию вращения --- */
+    #fan_state.On #glow_circle { fill: url(#glow-green); }
+    #fan_state.Off #glow_circle { fill: url(#glow-gray); }
+
+    /* --- Общая авария: перекрывает вращение и свечение --- */
+    #pritok_ventilyator_scada_v3.Alarm #fan_state.On #fan-blades { animation: none; }
+    #pritok_ventilyator_scada_v3.Alarm .wind-arcs { display: none; }
+    #pritok_ventilyator_scada_v3.Alarm #glow_circle {
+      fill: url(#glow-red);
+      animation: alarm_blink 1s linear infinite;
+    }
+    #pritok_ventilyator_scada_v3.Alarm #frame_border {
+      stroke: #ef4444;
+      animation: alarm_blink 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes alarm_blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.15; }
+    }
+  ]]></style>
+
+  <g id="pritok_ventilyator_scada_v3" class="Normal">
+    <!-- Рамка -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#tpl_tile_clip)">
+      <!-- Фон центральной части с градиентом -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="url(#inner-bg)"/>
+
+      <!-- Фон заголовка -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Фон нижней зоны -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Центральная зона: пропеллер со свечением -->
+      <g id="fan_state" class="On">
+        <circle id="glow_circle" cx="50" cy="50" r="28" fill="url(#glow-green)"/>
+
+        <!-- Пропеллер (5 лопастей), масштабирован под 100x100, вписан в y=20..80 -->
+        <g transform="translate(50,50) scale(0.16)">
+          <!-- Крыльчатка (5 лопастей) с вращением и правильными дугами ветра -->
+          <g id="fan-blades" class="spd-100">
+            <!-- Дуги ветра (скрываются при остановке вращения) -->
+            <g class="wind-arcs">
+              <use xlink:href="#wind-arcs" transform="rotate(0)" />
+              <use xlink:href="#wind-arcs" transform="rotate(72)" />
+              <use xlink:href="#wind-arcs" transform="rotate(144)" />
+              <use xlink:href="#wind-arcs" transform="rotate(216)" />
+              <use xlink:href="#wind-arcs" transform="rotate(288)" />
+            </g>
+            <!-- Лопасти -->
+            <use xlink:href="#blade" transform="rotate(0)" />
+            <use xlink:href="#blade" transform="rotate(72)" />
+            <use xlink:href="#blade" transform="rotate(144)" />
+            <use xlink:href="#blade" transform="rotate(216)" />
+            <use xlink:href="#blade" transform="rotate(288)" />
+          </g>
+
+          <!-- Центральная крышка (втулка) -->
+          <g id="center-hub">
+            <!-- Внешнее полупрозрачное кольцо основания -->
+            <circle cx="0" cy="0" r="42" fill="#484c50" fill-opacity="0.3" stroke="#484c50" stroke-width="1" />
+            <!-- Основной круг втулки -->
+            <circle cx="0" cy="0" r="38" fill="url(#center-gradient)" stroke="#2b2e30" stroke-width="1.5" />
+            <!-- Внутреннее ребро жесткости -->
+            <circle cx="0" cy="0" r="34" fill="none" stroke="#686e73" stroke-width="1" opacity="0.6" />
+
+            <!-- Тонкие разделительные линии спиц внутри пластика -->
+            <line x1="0" y1="-34" x2="0" y2="34" stroke="#2b2e30" stroke-width="1.5" opacity="0.7" />
+            <line x1="-32" y1="-10" x2="32" y2="10" stroke="#2b2e30" stroke-width="1.5" opacity="0.7" />
+            <line x1="-26" y1="18" x2="26" y2="-18" stroke="#2b2e30" stroke-width="1.5" opacity="0.7" />
+
+            <!-- Центральное сквозное отверстие под вал -->
+            <circle cx="0" cy="0" r="5" fill="#15171a" stroke="#2b2e30" stroke-width="1.5" />
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <!-- Заголовок: название элемента -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">&#x41F;&#x440;&#x438;&#x442;&#x43E;&#x447;&#x43D;&#x44B;&#x439; &#x432;&#x435;&#x43D;&#x442;&#x438;&#x43B;&#x44F;&#x442;&#x43E;&#x440;</text>
+
+    <!-- Нижняя зона: параметр -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#e5e7eb">&#x412;&#x41A;&#x41B;</text>
+  </g>
+</svg>
+`;
+  const stage = document.getElementById('stage');
+  stage.innerHTML = svgText;
+  const root = document.getElementById('pritok_ventilyator_scada_v3');
+  const fanState = document.getElementById('fan_state');
+  const fanBlades = document.getElementById('fan-blades');
+  const speedSlider = document.getElementById('speedSlider');
+  const speedLabel = document.getElementById('speedLabel');
+
+  // Вращение через Web Animations API: смена скорости меняет playbackRate,
+  // поэтому позиция пропеллера НЕ сбрасывается, а скорость меняется плавно.
+  let spinAnim = null;
+
+  function applySpeed() {
+    if (!spinAnim) return;
+    const s = Number(speedSlider.value);
+    const dur = 6 - (s - 10) * 5 / 90; // секунд на оборот
+    spinAnim.playbackRate = 1 / dur;
+    speedLabel.textContent = `${s} (${dur.toFixed(1)} с/об)`;
+  }
+
+  function syncAnimation() {
+    const alarm = root.classList.contains('Alarm');
+    const on = fanState.classList.contains('On');
+    if (alarm || !on) {
+      if (spinAnim) { spinAnim.cancel(); spinAnim = null; }
+    } else {
+      if (!spinAnim) {
+        fanBlades.style.animation = 'none'; // отключаем CSS-анимацию, управляем через WAAPI
+        spinAnim = fanBlades.animate(
+          [{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }],
+          { duration: 1000, iterations: Infinity }
+        );
+      }
+      applySpeed();
+    }
+  }
+
+  document.querySelectorAll('[data-alarm]').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('[data-alarm]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      root.setAttribute('class', b.dataset.alarm);
+      syncAnimation();
+    };
+  });
+  document.querySelectorAll('[data-rot]').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('[data-rot]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      fanState.setAttribute('class', b.dataset.rot);
+      syncAnimation();
+    };
+  });
+
+  speedSlider.oninput = applySpeed;
+  syncAnimation();
+</script>
+</body>
+</html>

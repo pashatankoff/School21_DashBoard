@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Электронагреватель - элемент для MasterSCADA (на основе стиля filter_pritok).
+  Система координат: 100x100 (viewBox).
+  Масштаб вывода: 166.6667 px (~500/3) - средняя зона (60 единиц,
+  y = 20..80) на экране ровно 100 px.
+
+  Основа: filter_pritok_scada.svg (без стрелок и фильтрующих элементов).
+  Добавлены: нагревательные элементы (ТЭНы) из electric_heater_scada.svg.
+
+  Привязки (см. парный файл electric_heater_scada.xml):
+    #heater_elements fill        - цвет ТЭНов (основной)
+    #heater_elements opacity     - прозрачность (состояние)
+    #heater_glow    stdDeviation - интенсивность свечения
+    #pos_value      Content      - текст верхней зоны
+    #pos_value      visibility   - видимость текста
+    #pos_value      fill         - цвет текста заголовка
+    #status_text    Content      - текст нижней зоны
+    #status_text    fill         - цвет текста нижней зоны
+    #top_band       fill         - фон заголовка
+    #mid_band       fill         - фон центральной части
+    #bottom_band    fill         - фон нижней зоны
+    #frame_border   stroke       - цвет рамки
+
+  Русский текст задан XML-кодами символов (&#x...;), чтобы файл
+  оставался чисто ASCII и не зависел от кодировки.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-electric-heater-scada">
+  <defs>
+    <clipPath id="ehs_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Свечение для нагревательных элементов (адаптировано под 100x100) -->
+    <filter id="glow-orange" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur1"/>
+      <feGaussianBlur stdDeviation="3" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Свечение для зелёного текста ВКЛ -->
+    <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Градиент фона центральной части -->
+    <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+  </defs>
+
+  <style type="text/css"><![CDATA[
+    /* ===== Состояние ТЭНов: On / Off / Alarm ===== */
+    /* On — цветной + заметное мерцание (только в этом режиме) */
+    #heater_state.On .ten-glow {
+      stroke: #ff5500;
+      animation: heat_flicker 3.5s ease-in-out infinite;
+    }
+    #heater_state.On .ten-core {
+      stroke: #ffcc00;
+      animation: heat_flicker 3.5s ease-in-out infinite;
+    }
+    #heater_state.On .ten-port { fill: #ffffff; }
+    /* Off — серый оттенок, без мерцания */
+    #heater_state.Off .ten-glow { stroke: #6b7280; animation: none; }
+    #heater_state.Off .ten-core { stroke: #9ca3af; animation: none; }
+    #heater_state.Off .ten-port { fill: #9ca3af; }
+    /* Alarm — серый оттенок, без мерцания, рамка мигает красным */
+    #heater_state.Alarm .ten-glow { stroke: #6b7280; animation: none; }
+    #heater_state.Alarm .ten-core { stroke: #9ca3af; animation: none; }
+    #heater_state.Alarm .ten-port { fill: #9ca3af; }
+    #electric_heater_scada.Alarm #frame_border {
+      stroke: #ef4444;
+      animation: alarm_blink 1s linear infinite;
+    }
+
+    /* Мягкое мерцание раскалённой нити: лёгкие неравномерные вспышки */
+    @keyframes heat_flicker {
+      0%, 100% { opacity: 1; }
+      15%      { opacity: 0.78; }
+      30%      { opacity: 0.95; }
+      45%      { opacity: 0.85; }
+      60%      { opacity: 1; }
+      75%      { opacity: 0.72; }
+      90%      { opacity: 0.92; }
+    }
+    @keyframes alarm_blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.15; }
+    }
+  ]]></style>
+
+  <g id="electric_heater_scada" class="Normal">
+
+    <!-- Рамка; внешний габарит ровно 100x100 в viewBox -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#ehs_tile_clip)">
+
+      <!-- Фон центральной части с градиентом -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="url(#inner-bg)"/>
+
+      <!-- Фон заголовка (верхняя зона) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Фон нижней зоны (текст состояния) -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Три нагревательных элемента (ТЭНы) - равномерно по горизонтали.
+           Нарисованы напрямую (без <use>), чтобы CSS-анимация мерцания
+           гарантированно работала в любом браузере. -->
+      <g id="heater_state" class="On">
+        <g id="heater_elements" fill="#ff5500" stroke="#ff5500" stroke-width="2">
+          <!-- ТЭН 1 -->
+          <g transform="translate(9,5)">
+            <ellipse class="ten-port" cx="12.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+            <ellipse class="ten-port" cx="19.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+            <path class="ten-glow" d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+                  fill="none" stroke="#ff5500" stroke-width="2" stroke-linecap="round"
+                  filter="url(#glow-orange)"/>
+            <path class="ten-core" d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+                  fill="none" stroke="#ffcc00" stroke-width="0.6" stroke-linecap="round"/>
+          </g>
+          <!-- ТЭН 2 -->
+          <g transform="translate(34,5)">
+            <ellipse class="ten-port" cx="12.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+            <ellipse class="ten-port" cx="19.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+            <path class="ten-glow" d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+                  fill="none" stroke="#ff5500" stroke-width="2" stroke-linecap="round"
+                  filter="url(#glow-orange)"/>
+            <path class="ten-core" d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+                  fill="none" stroke="#ffcc00" stroke-width="0.6" stroke-linecap="round"/>
+          </g>
+          <!-- ТЭН 3 -->
+          <g transform="translate(59,5)">
+            <ellipse class="ten-port" cx="12.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+            <ellipse class="ten-port" cx="19.5" cy="70" rx="1.5" ry="0.8" fill="#ffffff" opacity="0.8"/>
+            <path class="ten-glow" d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+                  fill="none" stroke="#ff5500" stroke-width="2" stroke-linecap="round"
+                  filter="url(#glow-orange)"/>
+            <path class="ten-core" d="M 12.5 70 L 12.5 30 A 3.5 3.5 0 0 1 19.5 30 L 19.5 70"
+                  fill="none" stroke="#ffcc00" stroke-width="0.6" stroke-linecap="round"/>
+          </g>
+        </g>
+      </g>
+
+      <!-- Рамочка вокруг зоны нагрева (визуально отделяет элемент) -->
+      <rect x="12" y="20.5" width="76" height="59"
+        fill="none" stroke="#3b4048" stroke-width="0.8" rx="3" ry="3"/>
+    </g>
+
+    <!-- Заголовок: название / параметр -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">&#x42D;&#x43B;. &#x43D;&#x430;&#x433;&#x440;&#x435;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x44C;</text>
+
+    <!-- Нижняя зона: текст состояния -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x412;&#x41A;&#x41B;</text>
+  </g>
+</svg>

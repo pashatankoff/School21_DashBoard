@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
   <ParameterDefs>
-    <ParameterDef Name="FilterMediaColor" DisplayName="Цвет фильтрующего элемента" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="filter_media" Path="fill" />
-    <ParameterDef Name="FilterMediaOpacity" DisplayName="Прозрачность фильтрующего элемента (загрязнение)" Type="DOUBLE" ParamType="Attribute" ItemId="filter_media" Path="opacity" />
-    <ParameterDef Name="PercentText" DisplayName="Текст процентов загрязнения" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
-    <ParameterDef Name="PercentTextVisible" DisplayName="Видимость текста процентов" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
+    <ParameterDef Name="HeaterElementsColor" DisplayName="Цвет ТЭНов" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="heater_elements" Path="fill" />
+    <ParameterDef Name="HeaterState" DisplayName="Состояние" Type="STRING" ParamType="Attribute" ItemId="heater_state" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+      <Value DisplayName="Авария">Alarm</Value>
+    </ParameterDef>
+    <ParameterDef Name="HeaderText" DisplayName="Текст заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
+    <ParameterDef Name="HeaderTextVisible" DisplayName="Видимость текста заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
       <Value DisplayName="Показать">visible</Value>
       <Value DisplayName="Скрыть">hidden</Value>
     </ParameterDef>
@@ -14,7 +18,6 @@
     <ParameterDef Name="HeaderBackgroundColor" DisplayName="Цвет фона заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="top_band" Path="fill" />
     <ParameterDef Name="MiddleBackgroundColor" DisplayName="Цвет фона центральной части" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="mid_band" Path="fill" />
     <ParameterDef Name="BottomBackgroundColor" DisplayName="Цвет фона нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="bottom_band" Path="fill" />
-    <ParameterDef Name="FlowArrowColor" DisplayName="Цвет стрелок потока" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="flow_arrows" Path="stroke" />
     <ParameterDef Name="FrameBorderColor" DisplayName="Цвет рамки" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="frame_border" Path="stroke" />
   </ParameterDefs>
 </SvgDef>

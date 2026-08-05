@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
   <ParameterDefs>
-    <ParameterDef Name="HeaterElementsColor" DisplayName="Цвет ТЭНов" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="heater_elements" Path="fill" />
-    <ParameterDef Name="HeaterElementsOpacity" DisplayName="Прозрачность ТЭНов (состояние)" Type="DOUBLE" ParamType="Attribute" ItemId="heater_elements" Path="opacity" />
-    <ParameterDef Name="HeaterGlowIntensity" DisplayName="Интенсивность свечения ТЭНов" Type="DOUBLE" ParamType="Attribute" ItemId="glow-orange" Path="stdDeviation" />
     <ParameterDef Name="HeaderText" DisplayName="Текст заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
     <ParameterDef Name="HeaderTextVisible" DisplayName="Видимость текста заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
       <Value DisplayName="Показать">visible</Value>

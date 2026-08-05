@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Test filter_pritok_scada</title>
+<style>
+  body { background:#0f1115; color:#e5e7eb; font-family:Segoe UI,Arial,sans-serif; padding:20px; }
+  .row { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+  .card { background:#1a1d23; border:1px solid #2a2f38; border-radius:10px; padding:14px; }
+  .card h3 { margin:0 0 8px; font-size:14px; }
+  svg { width:166px; height:166px; background:#0b0d10; border-radius:8px; }
+  button { margin:3px; padding:6px 12px; border-radius:6px; border:1px solid #3b4048; background:#23272e; color:#e5e7eb; cursor:pointer; }
+  button.active { background:#38bdf8; color:#0b0d10; border-color:#38bdf8; }
+</style>
+</head>
+<body>
+<h2>Проверка фильтра притока (вибрация)</h2>
+<div class="row">
+  <div class="card">
+    <h3>Вибрация</h3>
+    <button data-vib="On" class="active">On (треугольники вибрируют)</button>
+    <button data-vib="Off">Off (стоят неподвижно)</button>
+  </div>
+</div>
+<div id="stage" style="margin-top:20px;"></div>
+
+<script>
+  const svgText = `<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-filter-pritok-scada">
+  <defs>
+    <clipPath id="fps_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Прототип треугольного фильтрующего элемента (увеличен в 2 раза, со скруглёнными углами).
+         Центр в (0,0), основание по вертикали, вершина вправо (поток ->).
+         Высота треугольника = 24, основание = 16. Радиус скругления = 2.5. -->
+    <g id="filter_triangle_proto">
+      <path d="M-12,-5.5 Q-12,-8 -9.5,-8 L9.5,-2.5 Q12,0 9.5,2.5 L-9.5,8 Q-12,8 -12,5.5 Z"
+        stroke="#4b5563" stroke-width="0.5" stroke-linejoin="round"/>
+    </g>
+
+    <!-- Стрелка направления потока (для индикации) -->
+    <g id="flow_arrow_proto">
+      <path d="M-8,0 L8,0 M3,-4 L8,0 L3,4" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </defs>
+
+  <style type="text/css"><![CDATA[
+    /* ===== Вибрация фильтрующих элементов =====
+       Параметр "Вибрация" (#vibration class On/Off).
+       Верхний и нижний треугольники качаются синхронно,
+       средний - в противофазе.
+       Центр вращения - середина левой (вертикальной) стороны
+       треугольника. Ось вращения (локальный 0,0 анимируемой
+       группы) совпадает с левой стороной, а сам треугольник
+       смещён на +12 по X, чтобы его центр оставался в (50,y). */
+    #vibration.On .tri_vib {
+      animation: tri_vibrate 1.2s ease-in-out infinite;
+    }
+    #vibration.On .tri_vib_anti {
+      animation-direction: reverse;
+    }
+    #vibration.Off .tri_vib {
+      animation: none;
+    }
+    @keyframes tri_vibrate {
+      0%   { transform: rotate(0deg); }
+      25%  { transform: rotate(2.5deg); }
+      75%  { transform: rotate(-2.5deg); }
+      100% { transform: rotate(0deg); }
+    }
+  ]]></style>
+
+  <g id="filter_pritok_scada">
+
+    <!-- Рамка; внешний габарит ровно 100x100 в viewBox -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#fps_tile_clip)">
+
+      <!-- Фон центральной части (перекрывается полосами сверху/снизу) -->
+      <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="#1a1d21"/>
+
+      <!-- Фон заголовка (верхняя зона, процент загрязнения) -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Фон нижней зоны (текст состояния) -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Стрелки направления потока (слева направо) -->
+      <g id="flow_arrows" fill="none" stroke="#94a3b8" stroke-width="1.2" opacity="0.6">
+        <use xlink:href="#flow_arrow_proto" transform="translate(20,50)"/>
+        <use xlink:href="#flow_arrow_proto" transform="translate(80,50)"/>
+      </g>
+
+      <!-- Фильтрующие элементы: 3 треугольника в центре центральной зоны (y=20..80).
+           Центр в (50,50), треугольники увеличены в 2 раза (высота 24).
+           Позиции: y=32, 50, 68 (верх/центр/низ внутри зоны с отступом 12).
+           Базовый цвет задаётся на группе #filter_media (меняется через параметр FilterMediaColor).
+           Вибрация управляется группой #vibration (class On/Off):
+             - верхний и нижний треугольники качаются синхронно;
+             - средний - в противофазе (класс tri_vib_anti);
+             - центр вращения - середина левой стороны: ось (0,0)
+               анимируемой группы стоит в (38,y), а треугольник
+               смещён на +12 по X, чтобы его центр был в (50,y). -->
+      <g id="filter_media" fill="#d1d5db" stroke="#4b5563" stroke-width="0.5">
+        <g id="vibration" class="On">
+          <g transform="translate(38,32)">
+            <g class="tri_vib">
+              <use id="tri_1" xlink:href="#filter_triangle_proto" transform="translate(12,0)"/>
+            </g>
+          </g>
+          <g transform="translate(38,50)">
+            <g class="tri_vib tri_vib_anti">
+              <use id="tri_2" xlink:href="#filter_triangle_proto" transform="translate(12,0)"/>
+            </g>
+          </g>
+          <g transform="translate(38,68)">
+            <g class="tri_vib">
+              <use id="tri_3" xlink:href="#filter_triangle_proto" transform="translate(12,0)"/>
+            </g>
+          </g>
+        </g>
+      </g>
+
+      <!-- Рамочка вокруг фильтрующей зоны (внутри центральной зоны y=20..80, с запасом для больших треугольников) -->
+      <rect x="30" y="20.5" width="40" height="59"
+        fill="none" stroke="#3b4048" stroke-width="0.8" rx="3" ry="3"/>
+    </g>
+
+    <!-- Заголовок: процент загрязнения фильтра.
+         Видимость - атрибут visibility ("visible" | "hidden"),
+         цвет - атрибут fill -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      visibility="visible"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="11"
+      font-weight="700"
+      fill="#e5e7eb">0%</text>
+
+    <!-- Нижняя зона: текст состояния, цвет - атрибут fill -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#94a3b8">&#x427;&#x438;&#x441;&#x442;&#x43E;</text>
+  </g>
+</svg>
+`;
+  const stage = document.getElementById('stage');
+  stage.innerHTML = svgText;
+  const vibration = document.getElementById('vibration');
+
+  document.querySelectorAll('[data-vib]').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('[data-vib]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      vibration.setAttribute('class', b.dataset.vib);
+    };
+  });
+</script>
+</body>
+</html>
