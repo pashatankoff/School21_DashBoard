@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Роторный теплоутилизатор (рекуператор) - элемент для MasterSCADA.
+  Размер элемента: 166.6667 x 166.6667 px (вписан в сетку 100x100).
+  Верхний полукруг — вытяжной канал, нижний — приточный.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="166.6667"
+  height="166.6667"
+  viewBox="0 0 100 100"
+  id="svg-rotornyy-rekuperator-scada">
+  <defs>
+    <!-- Маска обрезки углов плитки -->
+    <clipPath id="tpl_tile_clip">
+      <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
+    </clipPath>
+
+    <!-- Фон центральной части -->
+    <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2d32"/>
+      <stop offset="100%" stop-color="#15171a"/>
+    </linearGradient>
+
+    <!-- Красное свечение для верхнего сектора (вытяжка) -->
+    <radialGradient id="glow-red" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Зеленое свечение для нижнего сектора (приток) -->
+    <radialGradient id="glow-green" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Градиент для металлических ребер ротора -->
+    <linearGradient id="rotor-plate" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6b7280"/>
+      <stop offset="50%" stop-color="#374151"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+  </defs>
+
+  <g id="rotor_recuperator_block">
+    <!-- Внешняя рамка плитки -->
+    <rect id="frame_border"
+      x="0.75" y="0.75" width="98.5" height="98.5"
+      rx="8" ry="8"
+      fill="none"
+      stroke="#d1d5db"
+      stroke-width="1.5"/>
+
+    <g clip-path="url(#tpl_tile_clip)">
+      <!-- Общий фон плитки -->
+      <rect id="mid_band" width="100" height="100" fill="url(#inner-bg)"/>
+
+      <!-- Фон верхнего заголовка -->
+      <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- Фон нижней зоны статуса -->
+      <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
+      <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
+
+      <!-- ================= ТЕХНОЛОГИЧЕСКОЕ СВЕЧЕНИЕ СЕКТОРОВ ================= -->
+      <!-- Верхняя зона (Вытяжной канал - Тепло) -->
+      <path d="M 12 50 A 38 38 0 0 1 88 50 Z" fill="url(#glow-red)" opacity="0.7" />
+      <!-- Нижная зона (Приточный канал - Холод/Вентиляция) -->
+      <path d="M 12 50 A 38 38 0 0 0 88 50 Z" fill="url(#glow-green)" opacity="0.7" />
+
+      <!-- Горизонтальная линия разделения воздушных каналов вентиляции -->
+      <line x1="5" y1="50" x2="95" y2="50" stroke="#4b5563" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
+
+      <!-- ================= ВРАЩАЮЩИЙСЯ БАРАБАН (РОТОР) ================= -->
+      <!-- Ротор вписан в центральную область: центр (50,50), радиус 27 -->
+      <g id="rotor-group">
+
+        <!-- Внешний обод ротора -->
+        <circle cx="50" cy="50" r="28" fill="none" stroke="#4b5563" stroke-width="2.5" opacity="0.5" />
+        <circle cx="50" cy="50" r="26.5" fill="none" stroke="#1f2937" stroke-width="1.5" />
+
+        <!-- Вращающаяся теплообменная матрица -->
+        <g id="moving-rotor-matrix">
+          <!-- Фон диска ротора -->
+          <circle cx="50" cy="50" r="25" fill="url(#rotor-plate)" opacity="0.25" />
+
+          <!-- Спицы ротора (основные 4) -->
+          <line x1="50" y1="25" x2="50" y2="75" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
+          <line x1="25" y1="50" x2="75" y2="50" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
+          <line x1="32.3" y1="32.3" x2="67.7" y2="67.7" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
+          <line x1="32.3" y1="67.7" x2="67.7" y2="32.3" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
+
+          <!-- Промежуточные сектора (8 лучей) -->
+          <line x1="50" y1="50" x2="75" y2="37.5" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="67.7" y2="26" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="32.3" y2="26" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="25" y2="37.5" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="25" y2="62.5" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="32.3" y2="74" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="67.7" y2="74" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+          <line x1="50" y1="50" x2="75" y2="62.5" stroke="#4b5563" stroke-width="1" opacity="0.5" />
+
+          <!-- Концентрические кольца (гофрированная лента) -->
+          <circle cx="50" cy="50" r="19" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="3 2" opacity="0.5" />
+          <circle cx="50" cy="50" r="13" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="2.5 1.5" opacity="0.5" />
+          <circle cx="50" cy="50" r="7" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="2 1" opacity="0.5" />
+
+          <!-- Анимация вращения ротора -->
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            from="0 50 50" to="360 50 50"
+            dur="8s"
+            repeatCount="indefinite"/>
+        </g>
+
+        <!-- Внутренняя ступица ротора (неподвижная) -->
+        <circle cx="50" cy="50" r="5" fill="#1f2937" stroke="#111827" stroke-width="1.5" />
+        <circle cx="50" cy="50" r="3" fill="#374151" stroke="#4b5563" stroke-width="0.5" />
+        <circle cx="50" cy="50" r="1.5" fill="#111827" />
+      </g>
+    </g>
+
+    <!-- Заголовок элемента -->
+    <text id="pos_value"
+      x="50" y="14.5"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="10"
+      font-weight="700"
+      fill="#e5e7eb">&#x420;&#x43E;&#x442;&#x43E;&#x440;&#x43D;&#x44B;&#x439; &#x440;&#x435;&#x43A;&#x443;&#x43F;&#x435;&#x440;&#x430;&#x442;&#x43E;&#x440;</text>
+
+    <!-- Зона статуса работы -->
+    <text id="status_text"
+      x="50" y="93"
+      text-anchor="middle"
+      font-family="Segoe UI, Arial, sans-serif"
+      font-size="9"
+      font-weight="700"
+      letter-spacing="0.5"
+      fill="#e5e7eb">&#x41A;&#x41E;&#x414;: &#x420;&#x420;&#x41A; &#x412;&#x41A;&#x41B;</text>
+  </g>
+</svg>

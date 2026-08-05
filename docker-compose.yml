@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:ollama
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+      - ollama:/root/.ollama
+    environment:
+      # Удалите или настройте OPENAI_API_KEY, если хотите работать через OpenAI API вместо локального Ollama.
+      # - OPENAI_API_KEY=your_openai_api_key_here
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  open-webui:
+  ollama:
