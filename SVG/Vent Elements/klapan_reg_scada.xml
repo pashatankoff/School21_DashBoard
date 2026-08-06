@@ -3,10 +3,6 @@
   <ParameterDefs>
     <ParameterDef Name="BladesRotate" DisplayName="Поворот заслонок строкой rotate(A), 90=закрыто, 0=открыто" Type="STRING" ParamType="Attribute" ItemId="blade_rot" Path="transform" />
     <ParameterDef Name="PercentText" DisplayName="Текст процентов" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
-    <ParameterDef Name="PercentTextVisible" DisplayName="Видимость текста процентов" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
-      <Value DisplayName="Показать">visible</Value>
-      <Value DisplayName="Скрыть">hidden</Value>
-    </ParameterDef>
     <ParameterDef Name="BladesColor" DisplayName="Цвет заслонок" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="blades" Path="fill" />
     <ParameterDef Name="HeaderTextColor" DisplayName="Цвет текста заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pos_value" Path="fill" />
     <ParameterDef Name="StatusText" DisplayName="Текст нижней зоны" Type="STRING" ParamType="Attribute" ItemId="status_text" Path="Content" />

@@ -2,10 +2,6 @@
 <SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
   <ParameterDefs>
     <ParameterDef Name="HeaderText" DisplayName="Текст заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="Content" />
-    <ParameterDef Name="HeaderTextVisible" DisplayName="Видимость текста заголовка" Type="STRING" ParamType="Attribute" ItemId="pos_value" Path="visibility">
-      <Value DisplayName="Показать">visible</Value>
-      <Value DisplayName="Скрыть">hidden</Value>
-    </ParameterDef>
     <ParameterDef Name="HeaderTextColor" DisplayName="Цвет текста заголовка" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="pos_value" Path="fill" />
     <ParameterDef Name="StatusText" DisplayName="Текст нижней зоны" Type="STRING" ParamType="Attribute" ItemId="status_text" Path="Content" />
     <ParameterDef Name="StatusTextColor" DisplayName="Цвет текста нижней зоны" Type="HMI.SolidColorType" ParamType="Attribute" ItemId="status_text" Path="fill" />

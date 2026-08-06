@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Фильтр притока - элемент для MasterSCADA.
-  Координатная система: 100x100 (viewBox).
-  Масштаб вывода: 166.6667 px (~500/3) - средняя зона (60 единиц,
-  y = 20..80) на экране ровно 100 px.
+  Filter pritok - element dlya MasterSCADA.
+  Koordinatnaya sistema: 100x100 (viewBox).
+  Masshtab vyvoda: 166.6667 px (~500/3) - srednyaya zona (60 edinic,
+  y = 20..80) na ekrane rovno 100 px.
 
-  ФИЛЬТРУЮЩИЕ ЭЛЕМЕНТЫ:
-    Треугольные элементы в центре, направление потока слева направо.
-    Параметр "FilterState" может менять состояние (чистый/загрязнён).
+  FILTRUYUSHCHIE ELEMENTY:
+    Triugolnye elementy v centre, napravlenie potoka sleva napravo.
+    Parametr "FilterState" mozhet menyat' sostoyanie (chistyy/zagrjaznen).
 
-  Привязки (см. парный файл filter_pritok_scada.xml):
-    #filter_media   fill       - цвет фильтрующего элемента
-    #filter_media  opacity    - прозрачность (загрязнение)
-    #pos_value     Content    - текст состояния (процент загрязнения)
-    #pos_value     visibility - видимость текста
-    #pos_value     fill       - цвет текста заголовка
-    #status_text   Content    - текст нижней зоны
-    #status_text   fill       - цвет текста нижней зоны
-    #top_band      fill       - фон заголовка
-    #mid_band      fill       - фон центральной части
-    #bottom_band   fill       - фон нижней зоны
-    #flow_arrow    fill       - цвет стрелки потока
-    #frame_border  stroke     - цвет рамки
-    #vibration     class      - вибрация фильтрующих элементов (On/Off)
+  Privyazki (sm. parnyj fajl filter_pritok_scada.xml):
+    #filter_media   fill       - cvet filtruyushchego elementa
+    #filter_media  opacity    - prozrachnost' (zagrjaznenie)
+    #pos_value     Content    - tekst sostoyaniya (procent zagrjazneniya)
+    #pos_value     fill       - cvet teksta zagolovka
+    #status_text   Content    - tekst nizhnej zony
+    #status_text   fill       - cvet teksta nizhnej zony
+    #top_band      fill       - fon zagolovka
+    #mid_band      fill       - fon central'noj chasti
+    #bottom_band   fill       - fon nizhnej zony
+    #flow_arrow    fill       - cvet strelki potoka
+    #frame_border  stroke     - cvet ramki
 
-  Русский текст задан XML-кодами символов (&#x...;), чтобы файл
-  оставался чисто ASCII и не зависел от кодировки.
+  Russkij tekst zadan XML-kodami simvolov (&#x...;), chtoby fajl
+  ostavalsya chisto ASCII i ne zavisel ot kodirovki.
 -->
 <svg
   xmlns="http://www.w3.org/2000/svg"
@@ -39,49 +37,36 @@
       <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
     </clipPath>
 
-    <!-- Прототип треугольного фильтрующего элемента (увеличен в 2 раза, со скруглёнными углами).
-         Центр в (0,0), основание по вертикали, вершина вправо (поток ->).
-         Высота треугольника = 24, основание = 16. Радиус скругления = 2.5. -->
+    <!-- Prototip treugol'nogo filtruyushchego elementa (uvelichen v 2 raza, s skругленными углами).
+         Centr v (0,0), osnovanie po vertikali, vershina vpravo (potok ->).
+         Vysota treugolnika = 24, osnovanie = 16. Radius skругления = 2.5. -->
     <g id="filter_triangle_proto">
       <path d="M-12,-5.5 Q-12,-8 -9.5,-8 L9.5,-2.5 Q12,0 9.5,2.5 L-9.5,8 Q-12,8 -12,5.5 Z"
         stroke="#4b5563" stroke-width="0.5" stroke-linejoin="round"/>
     </g>
 
-    <!-- Стрелка направления потока (для индикации) -->
+    <!-- Strelka napravleniya potoka (dlya indikacii) -->
     <g id="flow_arrow_proto">
       <path d="M-8,0 L8,0 M3,-4 L8,0 L3,4" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </defs>
 
   <style type="text/css"><![CDATA[
-    /* ===== Вибрация фильтрующих элементов =====
-       Параметр "Вибрация" (#vibration class On/Off).
-       Верхний и нижний треугольники качаются синхронно,
-       средний - в противофазе.
-       Центр вращения - середина левой (вертикальной) стороны
-       треугольника. Ось вращения (локальный 0,0 анимируемой
-       группы) совпадает с левой стороной, а сам треугольник
-       смещён на +12 по X, чтобы его центр оставался в (50,y). */
-    #vibration.On .tri_vib {
-      animation: tri_vibrate 1.2s ease-in-out infinite;
+    /* ===== Общая авария: Normal / Alarm ===== */
+    #filter_pritok_scada.Alarm #frame_border {
+      stroke: #ef4444;
+      animation: alarm_blink 1s linear infinite;
     }
-    #vibration.On .tri_vib_anti {
-      animation-direction: reverse;
-    }
-    #vibration.Off .tri_vib {
-      animation: none;
-    }
-    @keyframes tri_vibrate {
-      0%   { transform: rotate(0deg); }
-      25%  { transform: rotate(2.5deg); }
-      75%  { transform: rotate(-2.5deg); }
-      100% { transform: rotate(0deg); }
+
+    @keyframes alarm_blink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.15; }
     }
   ]]></style>
 
-  <g id="filter_pritok_scada">
+  <g id="filter_pritok_scada" class="Normal">
 
-    <!-- Рамка; внешний габарит ровно 100x100 в viewBox -->
+    <!-- Ramka; vneshnij gabarit rovno 100x100 v viewBox -->
     <rect id="frame_border"
       x="0.75" y="0.75" width="98.5" height="98.5"
       rx="8" ry="8"
@@ -91,71 +76,49 @@
 
     <g clip-path="url(#fps_tile_clip)">
 
-      <!-- Фон центральной части (перекрывается полосами сверху/снизу) -->
+      <!-- Fon central'noj chasti (perekryvaetsya polosami sverhu/snizu) -->
       <rect id="mid_band" x="0.75" y="0.75" width="98.5" height="98.5" fill="#1a1d21"/>
 
-      <!-- Фон заголовка (верхняя зона, процент загрязнения) -->
+      <!-- Fon zagolovka (verhnyaya zona, procent zagrjazneniya) -->
       <rect id="top_band" x="0.75" y="0.75" width="98.5" height="19.25" fill="#23272e"/>
       <line id="top_sep" x1="0.75" y1="20" x2="99.25" y2="20" stroke="#3b4048" stroke-width="1"/>
 
-      <!-- Фон нижней зоны (текст состояния) -->
+      <!-- Fon nizhnej zony (tekst sostoyaniya) -->
       <rect id="bottom_band" x="0.75" y="80" width="98.5" height="19.25" fill="#23272e"/>
       <line id="bottom_sep" x1="0.75" y1="80" x2="99.25" y2="80" stroke="#3b4048" stroke-width="1"/>
 
-      <!-- Стрелки направления потока (слева направо) -->
+      <!-- Strelki napravleniya potoka (sleva napravo) -->
       <g id="flow_arrows" fill="none" stroke="#94a3b8" stroke-width="1.2" opacity="0.6">
         <use xlink:href="#flow_arrow_proto" transform="translate(20,50)"/>
         <use xlink:href="#flow_arrow_proto" transform="translate(80,50)"/>
       </g>
 
-      <!-- Фильтрующие элементы: 3 треугольника в центре центральной зоны (y=20..80).
-           Центр в (50,50), треугольники увеличены в 2 раза (высота 24).
-           Позиции: y=32, 50, 68 (верх/центр/низ внутри зоны с отступом 12).
-           Базовый цвет задаётся на группе #filter_media (меняется через параметр FilterMediaColor).
-           Вибрация управляется группой #vibration (class On/Off):
-             - верхний и нижний треугольники качаются синхронно;
-             - средний - в противофазе (класс tri_vib_anti);
-             - центр вращения - середина левой стороны: ось (0,0)
-               анимируемой группы стоит в (38,y), а треугольник
-               смещён на +12 по X, чтобы его центр был в (50,y). -->
+      <!-- Filtruyushchie elementy: 3 treugolnika v centre central'noy zony (y=20..80).
+           Centr v (50,50), treugolniki uvelicheny v 2 raza (vysota 24).
+           Pozitsii: y=32, 50, 68 (verh/centr/niz vnutri zony s otstupom 12).
+           Bazovyy cvet zadayetsya na groupe #filter_media (menyaetsya cherez parametr FilterMediaColor).
+           Gradient tonov realizovan cherez otnositel'nyy fill na use (no parametr pereopredelyaet vse). -->
       <g id="filter_media" fill="#d1d5db" stroke="#4b5563" stroke-width="0.5">
-        <g id="vibration" class="On">
-          <g transform="translate(38,32)">
-            <g class="tri_vib">
-              <use id="tri_1" xlink:href="#filter_triangle_proto" transform="translate(12,0)"/>
-            </g>
-          </g>
-          <g transform="translate(38,50)">
-            <g class="tri_vib tri_vib_anti">
-              <use id="tri_2" xlink:href="#filter_triangle_proto" transform="translate(12,0)"/>
-            </g>
-          </g>
-          <g transform="translate(38,68)">
-            <g class="tri_vib">
-              <use id="tri_3" xlink:href="#filter_triangle_proto" transform="translate(12,0)"/>
-            </g>
-          </g>
-        </g>
+        <use id="tri_1" xlink:href="#filter_triangle_proto" transform="translate(50,32)"/>
+        <use id="tri_2" xlink:href="#filter_triangle_proto" transform="translate(50,50)"/>
+        <use id="tri_3" xlink:href="#filter_triangle_proto" transform="translate(50,68)"/>
       </g>
 
-      <!-- Рамочка вокруг фильтрующей зоны (внутри центральной зоны y=20..80, с запасом для больших треугольников) -->
+      <!-- Ramochka vokrug filtruyushchey zony (vnutri central'noy zony y=20..80, s zapasom dlya bol'shih treugolnikov) -->
       <rect x="30" y="20.5" width="40" height="59"
         fill="none" stroke="#3b4048" stroke-width="0.8" rx="3" ry="3"/>
     </g>
 
-    <!-- Заголовок: процент загрязнения фильтра.
-         Видимость - атрибут visibility ("visible" | "hidden"),
-         цвет - атрибут fill -->
+    <!-- Zagolovok: procent zagrjazneniya filtra, cvet - atribut fill -->
     <text id="pos_value"
       x="50" y="14.5"
-      visibility="visible"
       text-anchor="middle"
       font-family="Segoe UI, Arial, sans-serif"
       font-size="11"
       font-weight="700"
       fill="#e5e7eb">0%</text>
 
-    <!-- Нижняя зона: текст состояния, цвет - атрибут fill -->
+    <!-- Nizhnyaya zona: tekst sostoyaniya, cvet - atribut fill -->
     <text id="status_text"
       x="50" y="93"
       text-anchor="middle"

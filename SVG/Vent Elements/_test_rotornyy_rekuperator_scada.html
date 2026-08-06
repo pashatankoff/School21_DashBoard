@@ -1,23 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Роторный теплоутилизатор (рекуператор) - элемент для MasterSCADA.
-  Размер элемента: 500 x 500 px (вписан в сетку 100x100).
-  Верхний полукруг — вытяжной канал, нижний — приточный.
-  Ротор занимает ~90% внутреннего объёма изображения.
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Test rotornyy_rekuperator_scada</title>
+<style>
+  body { background:#0f1115; color:#e5e7eb; font-family:Segoe UI,Arial,sans-serif; padding:20px; }
+  .row { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+  .card { background:#1a1d23; border:1px solid #2a2f38; border-radius:10px; padding:14px; margin-bottom:14px; }
+  .card h3 { margin:0 0 8px; font-size:14px; }
+  svg { width:300px; height:300px; background:#0b0d10; border-radius:8px; }
+  button { margin:3px; padding:6px 12px; border-radius:6px; border:1px solid #3b4048; background:#23272e; color:#e5e7eb; cursor:pointer; }
+  button.active { background:#38bdf8; color:#0b0d10; border-color:#38bdf8; }
+  label { display:block; margin:6px 0; font-size:13px; }
+  input[type=text] { background:#0b0d10; border:1px solid #3b4048; color:#e5e7eb; border-radius:6px; padding:5px 8px; width:220px; }
+  input[type=checkbox] { margin-right:6px; }
+</style>
+</head>
+<body>
+<h2>Проверка роторного рекуператора (XML-параметры)</h2>
+<div class="row">
+  <div>
+    <div class="card">
+      <h3>Авария</h3>
+      <button data-alarm="Normal" class="active">Норма</button>
+      <button data-alarm="Alarm">Авария</button>
+    </div>
 
-  Привязки (см. парный файл rotornyy_rekuperator_scada.xml):
-    #rotor_recuperator_block class - авария (Normal / Alarm)
-    #rotor_state        class      - вращение ротора (On / Off)
-    #rotor_label        Content    - текст подписи "Ротор"
-    #rotor_label        visibility - видимость подписи "Ротор"
-    #heat_label         Content    - текст подписи "Теплосъем"
-    #heat_label         visibility - видимость подписи "Теплосъем"
-    #heat_supply_label  Content    - текст подписи "Подогрев"
-    #heat_supply_label  visibility - видимость подписи "Подогрев"
+    <div class="card">
+      <h3>Вращение ротора</h3>
+      <button data-rot="On" class="active">Вкл</button>
+      <button data-rot="Off">Выкл</button>
+    </div>
 
-  Русский текст задан XML-кодами символов (&#x...;), чтобы файл
-  оставался чисто ASCII и не зависел от кодировки.
--->
+    <div class="card">
+      <h3>Подпись «Ротор»</h3>
+      <label><input type="checkbox" id="rotorVis" checked> Видимость</label>
+      <label>Текст: <input type="text" id="rotorText" value="РОТОР"></label>
+    </div>
+
+    <div class="card">
+      <h3>Подпись «Теплосъем»</h3>
+      <label><input type="checkbox" id="heatVis" checked> Видимость</label>
+      <label>Текст: <input type="text" id="heatText" value="ТЕПЛОСЪЁМ"></label>
+    </div>
+
+    <div class="card">
+      <h3>Подпись «Подогрев»</h3>
+      <label><input type="checkbox" id="supplyVis" checked> Видимость</label>
+      <label>Текст: <input type="text" id="supplyText" value="ПОДОГРЕВ"></label>
+    </div>
+  </div>
+
+  <div id="stage"></div>
+</div>
+
+<script>
+  const svgText = `<?xml version="1.0" encoding="UTF-8"?>
 <svg
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -26,30 +64,21 @@
   viewBox="0 0 100 100"
   id="svg-rotornyy-rekuperator-scada">
   <defs>
-    <!-- Маска обрезки углов плитки -->
     <clipPath id="tpl_tile_clip">
       <rect x="0.75" y="0.75" width="98.5" height="98.5" rx="8" ry="8"/>
     </clipPath>
-
-    <!-- Фон центральной части -->
     <linearGradient id="inner-bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#2a2d32"/>
       <stop offset="100%" stop-color="#15171a"/>
     </linearGradient>
-
-    <!-- Красное свечение для верхнего сектора (вытяжка) -->
     <radialGradient id="glow-red" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ef4444" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
     </radialGradient>
-
-    <!-- Зеленое свечение для нижнего сектора (приток) -->
     <radialGradient id="glow-green" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#22c55e" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
     </radialGradient>
-
-    <!-- Градиент для металлических ребер ротора -->
     <linearGradient id="rotor-plate" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#6b7280"/>
       <stop offset="50%" stop-color="#374151"/>
@@ -58,7 +87,6 @@
   </defs>
 
   <style type="text/css"><![CDATA[
-    /* ===== Управление вращением ротора: On / Off ===== */
     #rotor_state.On #moving-rotor-matrix {
       animation: rotor_spin 8s linear infinite;
       transform-origin: 50px 50px;
@@ -71,7 +99,6 @@
       to   { transform: rotate(360deg); }
     }
 
-    /* ===== Авария: плавное мигание рамки красным, ротор остановлен ===== */
     #rotor_recuperator_block.Alarm #frame_border {
       stroke: #ef4444;
       animation: alarm_blink 1s linear infinite;
@@ -86,7 +113,6 @@
   ]]></style>
 
   <g id="rotor_recuperator_block" class="Normal">
-    <!-- Внешняя рамка плитки -->
     <rect id="frame_border"
       x="0.75" y="0.75" width="98.5" height="98.5"
       rx="8" ry="8"
@@ -95,51 +121,33 @@
       stroke-width="1.5"/>
 
     <g clip-path="url(#tpl_tile_clip)">
-      <!-- Общий фон плитки -->
       <rect id="mid_band" width="100" height="100" fill="url(#inner-bg)"/>
 
-      <!-- ================= ТЕХНОЛОГИЧЕСКОЕ СВЕЧЕНИЕ СЕКТОРОВ ================= -->
-      <!-- Верхняя зона (Вытяжной канал - Тепло) -->
       <path d="M 12 50 A 38 38 0 0 1 88 50 Z" fill="url(#glow-red)" opacity="0.7" />
-      <!-- Нижная зона (Приточный канал - Холод/Вентиляция) -->
       <path d="M 12 50 A 38 38 0 0 0 88 50 Z" fill="url(#glow-green)" opacity="0.7" />
-
-      <!-- Горизонтальная линия разделения воздушных каналов вентиляции -->
       <line x1="5" y1="50" x2="95" y2="50" stroke="#4b5563" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
 
-      <!-- ================= ВРАЩАЮЩИЙСЯ БАРАБАН (РОТОР) ================= -->
-      <!-- Ротор вписан в центральную область: центр (50,50), радиус 45 (~90% объёма) -->
       <g id="rotor-group">
-
-        <!-- Внешний обод ротора -->
         <circle cx="50" cy="50" r="45" fill="none" stroke="#4b5563" stroke-width="2.5" opacity="0.5" />
         <circle cx="50" cy="50" r="43" fill="none" stroke="#1f2937" stroke-width="1.5" />
 
-        <!-- Вращающаяся теплообменная матрица (управление вращением через класс rotor_state) -->
         <g id="rotor_state" class="On">
           <g id="moving-rotor-matrix">
-            <!-- Фон диска ротора -->
             <circle cx="50" cy="50" r="41" fill="url(#rotor-plate)" opacity="0.25" />
-
-            <!-- Спицы ротора (основные 4) -->
             <line x1="50" y1="5" x2="50" y2="95" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
             <line x1="5" y1="50" x2="95" y2="50" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
             <line x1="18.2" y1="18.2" x2="81.8" y2="81.8" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
             <line x1="18.2" y1="81.8" x2="81.8" y2="18.2" stroke="#6b7280" stroke-width="1.5" opacity="0.7" />
-
-            <!-- Концентрические кольца (гофрированная лента) -->
             <circle cx="50" cy="50" r="23" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="3 2" opacity="0.5" />
             <circle cx="50" cy="50" r="16" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="2.5 1.5" opacity="0.5" />
             <circle cx="50" cy="50" r="9" fill="none" stroke="#6b7280" stroke-width="1" stroke-dasharray="2 1" opacity="0.5" />
           </g>
         </g>
 
-        <!-- Внутренняя ступица ротора (неподвижная) -->
         <circle cx="50" cy="50" r="7" fill="#1f2937" stroke="#111827" stroke-width="1.5" />
         <circle cx="50" cy="50" r="4" fill="#374151" stroke="#4b5563" stroke-width="0.5" />
         <circle cx="50" cy="50" r="2" fill="#111827" />
 
-        <!-- Подпись в центре -->
         <text id="rotor_label"
           x="50" y="52.5"
           visibility="visible"
@@ -151,7 +159,6 @@
           fill="#e5e7eb">&#x420;&#x41E;&#x422;&#x41E;&#x420;</text>
       </g>
 
-      <!-- Надпись верхнего сектора (теплосъем) -->
       <text id="heat_label"
         x="50" y="20"
         visibility="visible"
@@ -162,7 +169,6 @@
         letter-spacing="1"
         fill="#f87171">&#x422;&#x415;&#x41F;&#x41B;&#x41E;&#x421;&#x42A;&#x401;&#x41C;</text>
 
-      <!-- Надпись нижнего сектора (подогрев) -->
       <text id="heat_supply_label"
         x="50" y="85"
         visibility="visible"
@@ -175,3 +181,58 @@
     </g>
   </g>
 </svg>
+`;
+
+  const stage = document.getElementById('stage');
+  stage.innerHTML = svgText;
+
+  const root = document.getElementById('rotor_recuperator_block');
+  const rotorState = document.getElementById('rotor_state');
+  const rotorLabel = document.getElementById('rotor_label');
+  const heatLabel = document.getElementById('heat_label');
+  const supplyLabel = document.getElementById('heat_supply_label');
+
+  // Авария Normal/Alarm
+  document.querySelectorAll('[data-alarm]').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('[data-alarm]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      root.setAttribute('class', b.dataset.alarm);
+    };
+  });
+
+  // Вращение On/Off
+  document.querySelectorAll('[data-rot]').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('[data-rot]').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      rotorState.setAttribute('class', b.dataset.rot);
+    };
+  });
+
+  // Подпись «Ротор»
+  document.getElementById('rotorVis').onchange = e => {
+    rotorLabel.setAttribute('visibility', e.target.checked ? 'visible' : 'hidden');
+  };
+  document.getElementById('rotorText').oninput = e => {
+    rotorLabel.textContent = e.target.value;
+  };
+
+  // Подпись «Теплосъем»
+  document.getElementById('heatVis').onchange = e => {
+    heatLabel.setAttribute('visibility', e.target.checked ? 'visible' : 'hidden');
+  };
+  document.getElementById('heatText').oninput = e => {
+    heatLabel.textContent = e.target.value;
+  };
+
+  // Подпись «Подогрев»
+  document.getElementById('supplyVis').onchange = e => {
+    supplyLabel.setAttribute('visibility', e.target.checked ? 'visible' : 'hidden');
+  };
+  document.getElementById('supplyText').oninput = e => {
+    supplyLabel.textContent = e.target.value;
+  };
+</script>
+</body>
+</html>

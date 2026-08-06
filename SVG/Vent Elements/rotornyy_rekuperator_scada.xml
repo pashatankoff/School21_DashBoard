@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SvgDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CreateCommonAvary="false">
+  <ParameterDefs>
+    <ParameterDef Name="AlarmState" DisplayName="Авария" Type="STRING" ParamType="Attribute" ItemId="rotor_recuperator_block" Path="class">
+      <Value DisplayName="Норма">Normal</Value>
+      <Value DisplayName="Авария">Alarm</Value>
+    </ParameterDef>
+    <ParameterDef Name="RotorRotation" DisplayName="Вращение ротора" Type="STRING" ParamType="Attribute" ItemId="rotor_state" Path="class">
+      <Value DisplayName="Вкл">On</Value>
+      <Value DisplayName="Выкл">Off</Value>
+    </ParameterDef>
+    <ParameterDef Name="RotorLabelText" DisplayName="Текст подписи Ротор" Type="STRING" ParamType="Attribute" ItemId="rotor_label" Path="Content" />
+    <ParameterDef Name="RotorLabelVisible" DisplayName="Видимость подписи Ротор" Type="STRING" ParamType="Attribute" ItemId="rotor_label" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+    <ParameterDef Name="HeatLabelText" DisplayName="Текст подписи Теплосъем" Type="STRING" ParamType="Attribute" ItemId="heat_label" Path="Content" />
+    <ParameterDef Name="HeatLabelVisible" DisplayName="Видимость подписи Теплосъем" Type="STRING" ParamType="Attribute" ItemId="heat_label" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+    <ParameterDef Name="SupplyLabelText" DisplayName="Текст подписи Подогрев" Type="STRING" ParamType="Attribute" ItemId="heat_supply_label" Path="Content" />
+    <ParameterDef Name="SupplyLabelVisible" DisplayName="Видимость подписи Подогрев" Type="STRING" ParamType="Attribute" ItemId="heat_supply_label" Path="visibility">
+      <Value DisplayName="Показать">visible</Value>
+      <Value DisplayName="Скрыть">hidden</Value>
+    </ParameterDef>
+  </ParameterDefs>
+</SvgDef>

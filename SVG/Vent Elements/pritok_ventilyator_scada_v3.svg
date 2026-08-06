@@ -13,7 +13,6 @@
 
   Привязки (см. парный файл pritok_ventilyator_scada_v3.xml):
     #pos_value      Content     - текст верхней зоны (заголовок)
-    #pos_value      visibility  - видимость текста заголовка
     #pos_value      fill        - цвет текста заголовка
     #status_text    Content     - текст нижней зоны
     #status_text    fill        - цвет текста нижней зоны
@@ -257,7 +256,6 @@
     <!-- Заголовок: название элемента -->
     <text id="pos_value"
       x="50" y="14.5"
-      visibility="visible"
       text-anchor="middle"
       font-family="Segoe UI, Arial, sans-serif"
       font-size="11"

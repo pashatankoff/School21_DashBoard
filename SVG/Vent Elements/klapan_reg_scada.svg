@@ -19,7 +19,6 @@
   Privyazki (sm. parnyj fajl klapan_reg_scada.xml):
     #blade_rot   transform  - povorot zaslonok, stroka "rotate(A)"
     #pos_value   Content    - tekst procentov
-    #pos_value   visibility - vidimost' teksta procentov (visible|hidden)
     #pos_value   fill       - cvet teksta zagolovka
     #blades      fill       - cvet zaslonok
     #status_text Content    - tekst nizhnej zony
@@ -98,12 +97,9 @@
       </g>
     </g>
 
-    <!-- Zagolovok: procent otkrytiya.
-         Vidimost' - atribut visibility ("visible" | "hidden"),
-         cvet - atribut fill -->
+    <!-- Zagolovok: procent otkrytiya, cvet - atribut fill -->
     <text id="pos_value"
       x="50" y="14.5"
-      visibility="visible"
       text-anchor="middle"
       font-family="Segoe UI, Arial, sans-serif"
       font-size="11"

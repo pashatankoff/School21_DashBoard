@@ -20,6 +20,7 @@
     .state_on { display: inline; }
     g.Off .state_on { display: none; }
     g.Off .state_off { display: inline; }
+    .status_text { display: inline; }
   ]]></style>
   <g id="electric_tile">
     <rect
@@ -106,7 +107,8 @@
           font-size="21px"
           font-family="Segoe UI, Sans"
           font-weight="700"
-          fill="#22c55e">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+          fill="#22c55e"
+          class="status_text">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
       </g>
       <g class="state_off" id="feed1_status_off">
         <rect
@@ -129,7 +131,8 @@
           font-size="21px"
           font-family="Segoe UI, Sans"
           font-weight="700"
-          fill="#ef4444">&#1054;&#1090;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+          fill="#ef4444"
+          class="status_text">&#1054;&#1090;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
       </g>
     </g>
 
@@ -155,7 +158,8 @@
           font-size="21px"
           font-family="Segoe UI, Sans"
           font-weight="700"
-          fill="#22c55e">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+          fill="#22c55e"
+          class="status_text">&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
       </g>
       <g class="state_off" id="feed2_status_off">
         <rect
@@ -178,7 +182,8 @@
           font-size="21px"
           font-family="Segoe UI, Sans"
           font-weight="700"
-          fill="#ef4444">&#1054;&#1090;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
+          fill="#ef4444"
+          class="status_text">&#1054;&#1090;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1086;</text>
       </g>
     </g>
 
